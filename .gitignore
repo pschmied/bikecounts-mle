@@ -10,3 +10,11 @@
 # RStudio files
 .Rproj.user/
 .Rproj.user
+.DS_Store
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.synctex.gz
+*.toc
