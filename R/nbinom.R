@@ -11,7 +11,7 @@ library(pscl)
 wb <- read.csv("data/weatherbike2yr.csv",
                header=T, stringsAsFactors=FALSE)
 
-##
+##add a line for test github
 ## Useful recodings of variables
 ##
 wb$dow <- wday(wb$Date)
