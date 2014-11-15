@@ -19,3 +19,4 @@
 *.synctex.gz
 *.toc
 *.pdf
+.Rapp.history
