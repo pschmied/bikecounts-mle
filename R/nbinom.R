@@ -20,12 +20,14 @@ wb <- read.csv("data/weatherbike2yr.csv",
 wb$dow <- as.factor(as.character(wday(
     wb$Date, label=TRUE, abbr=TRUE)))         # Day of Week
 
-wb$daylight <- wb$sunsetTime - wb$sunriseTime # Min of daylight
+wb$daylight <- wb$sunsetTime - wb$sunriseTime # Secs of daylight
+wb$daylighth <- wb$daylight / 60 / 60
 
 ## Days of the week, recoded as dummy vars
 wb <- cbind(wb, dcast(data=wb, X ~ dow, length)[,-1])
 wb$Wknd <- (wb$dow == "Sat" | wb$dow == "Sun")
 wb$TTh <- (wb$dow == "Tues" | wb$dow == "Wed" | wb$dow == "Thurs")
+
 
 ## Data type of all cats
 lapply(subset(wb, select=all.vars(mod1_f)), class)
@@ -64,7 +66,7 @@ mutex_dummy <- function(cf, dummies) {
 ## Model 1: 
 ##
 
-mod1_f <- count ~ daylight + holiday + uw +
+mod1_f <- count ~ daylighth + holiday + uw +
     temperatureMax + precipIntensityMax +
     cloudCover + X +
     Sat + Mon + Tues + Wed + Thurs + Fri # Sunday is reference cat
@@ -128,3 +130,17 @@ m1c3 <- ggplot(mod1_tidy3, aes(x=Day, y=pe, ymin=lower,
         xlab("Day of the week") + ylab("Bicycles") + theme_bw()
 
 ggsave(file="m1c3.pdf", path="fig")
+
+
+## cf4 - Effect of season (measured continuously via daylight hours)
+mod1_cf4 <- cfMake2(mod1_f, wb, daylighth=seq(8, 16, by=0.01),
+                    uw=c(TRUE,FALSE))
+mod1_res4 <- loglinsimev(mod1_cf4, mod1_sb) # Run the sim
+mod1_tidy4 <- fortify.longsim(mod1_res4, mod1_cf4)
+
+m1c4 <- ggplot(mod1_tidy4, aes(x=daylighth, y=pe, ymin=lower,
+                               ymax=upper, fill=uw)) +
+        geom_line() + geom_ribbon(alpha=0.3) +
+        xlab("Daylight (hours)") + ylab("Bicycles") + theme_bw()
+
+ggsave(file="m1c4.pdf", path="fig")
