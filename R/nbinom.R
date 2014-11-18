@@ -101,20 +101,38 @@ mod1_f <- count ~ daylighth + holiday + uw +
     temperatureMax + precipIntensityMax + X +
     Sat + Mon + Tues + Wed + Thurs + Fri # Sunday is reference cat
 
-mod1_m <- glm.nb(mod1_f, data=wb)       # estimate the model
+mod1_m_pois <- glm(mod1_f, data=wb, family=poisson) # poisson for fun
+mod1_m <- glm.nb(mod1_f, data=wb)       # estimate the real model
 set.seed(123456)                        # To reproduce results
 mod1_sb <- simbetas(mod1_m)             # Simulate our betas
 
 
 ## Model fit ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-## Actual versus predicted plot
+## Actual versus predicted plot - negative binomial
 avpp1 <- ggplot(data.frame(actual=wb$count, predicted=getyhat(mod1_m)),
                 aes(x=actual, y=predicted)) +
          geom_abline(intercept=0, slope=1, color="red") +
          geom_point() + theme_bw()
 
 ggsave(file="avpp1.pdf", path="fig", width=7, height=7, units=("in"))
+
+
+## Actual vs predicted plot - poisson
+avpp2 <- ggplot(data.frame(actual=wb$count, predicted=getyhat(mod1_m_pois)),
+                aes(x=actual, y=predicted)) +
+         geom_abline(intercept=0, slope=1, color="red") +
+         geom_point() + theme_bw()
+
+ggsave(file="avpp2.pdf", path="fig", width=7, height=7, units=("in"))
+
+## AIC
+AIC(mod1_m)                             # Negative Binomial
+AIC(mod1_m_pois)                        # Poisson
+
+## BIC
+BIC(mod1_m)                             # Negative Binomial
+BIC(mod1_m_pois)                        # Poisson
 
 
 ## Counterfactual simulations of model 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
