@@ -84,8 +84,7 @@ binys <- function(y, yhat, by=0.05) {
 ##
 
 mod1_f <- count ~ daylighth + holiday + uw +
-    temperatureMax + precipIntensityMax +
-    cloudCover + X +
+    temperatureMax + precipIntensityMax + X +
     Sat + Mon + Tues + Wed + Thurs + Fri # Sunday is reference cat
 
 mod1_m <- glm.nb(mod1_f, data=wb)       # estimate the model
