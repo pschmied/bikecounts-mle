@@ -58,6 +58,23 @@ mutex_dummy <- function(cf, dummies) {
     cf
 }
 
+getyhat <- function(model) {
+  # Takes a model object as created by glm, generates yhats
+  x <- model.matrix(model)[,-1]
+  pe <- model$coefficients
+  1/(1+exp(-cbind(rep(1,nrow(x)),x)%*%pe))
+}
+
+binys <- function(y, yhat, by=0.05) {
+    # Bins y according to yhat into bins of some desired size
+    binned <- group_by(
+        data.frame(y=y,
+                   yhat=yhat,
+                   bin=cut(yhat, seq(0,1,by=by))),
+        bin)
+    summarize(binned, y=mean(y), yhat=mean(yhat), n=n())
+}
+
 ##
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~ MODELS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
@@ -74,6 +91,11 @@ mod1_f <- count ~ daylighth + holiday + uw +
 mod1_m <- glm.nb(mod1_f, data=wb)       # estimate the model
 set.seed(123456)                        # To reproduce results
 mod1_sb <- simbetas(mod1_m)             # Simulate our betas
+
+
+## Model fit ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 
 ## Counterfactual simulations of model 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
