@@ -26,7 +26,8 @@
 \title
 [CSSS 501 MLE Poster Session, 17 November 2014 -- http://github.com/pschmied/bikecounts-mle] % Conference
 { % Poster title
-Weather and Seasonal Factors Affecting Daily Bicycle Counts at Fremont St. Bridge, Seattle
+  Weather and Seasonal Factors Affecting Daily Bicycle Counts at
+  Fremont St. Bridge, Seattle %
 }
 
 \author{ % Authors
@@ -90,8 +91,9 @@ pattern.
 
 
 \section{Model Specification}
-Because some over dispersion was evident in the counts, we chose to
-fit a negative binomial model. This model included the following variables
+Because over dispersion was evident in the counts, we chose to fit a
+negative binomial model. This model includes the following variables,
+and was fit using the \texttt{pscl::glm.nb()} function in R.
 
 \begin{table}[htdp]
 \begin{center}
@@ -101,7 +103,7 @@ fit a negative binomial model. This model included the following variables
   \hline
   Count* & Number of bicycles / day \\
   Daylight hours & Length of daylight in hours \\
-  Holiday & Was the day a holiday? \\
+  Holiday & Was the day a holiday (recognized by UW)? \\
   UW & Was University of Washington in session? \\
   Max temp & Maximum temperature for the day \\
   Max precip & Daily max precip (inches) in any hour \\
@@ -114,11 +116,29 @@ fit a negative binomial model. This model included the following variables
 \label{default}
 \end{table}%
 
-\section{Model Fit}
+\section{Model Fit and Diagnostics}
+
+As the actual-versus-predicted plot below shows, the model is a
+reasonably good fit. However, we note several outliers falling far
+from the $y=x$ line, perhaps indicating some other unaccounted source
+of variation in the dataset.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.15\textwidth]{../fig/avpp1}
+\caption{Actual versus predicted values from model}
+\label{fg:avp}
+\end{center}
+\end{figure}
 
 \section{Simulated Counterfactual Results}
 
 \subsection{Temperature}
+
+As expected, the effect of temperature seems clear. Bicyclists at this
+location appear to prefer warmer weather universally over cooler
+weather. In a less temperate climate, we might expect bicycle counts
+to fall again in very high temperature conditions.
 
 \begin{figure}[htbp]
 \begin{center}
@@ -130,17 +150,23 @@ fit a negative binomial model. This model included the following variables
 
 
 \subsection{Precipitation}
+Similiarly, we see the strong negative effect of precipitation in our simulated
+results. 
 
 \begin{figure}[htbp]
 \begin{center}
 \includegraphics[width=0.3\textwidth]{../fig/m1c2}
-\caption{Simulated effect of daily precipitation (in inches) on bicycle counts}
+\caption{Simulated effect of daily precipitation (in inches) on
+  bicycle counts}
 \label{fg:maxtemp}
 \end{center}
 \end{figure}
 
 \subsection{Day of the Week}
-
+As identified in our descriptive timeseries plot, these simulated
+results confirm the presense of a weekly pattern in bicycling, with
+much higher numbers of bicyclists during the week, falling off
+somewhat toward Friday, and dropping precipitously on the weekends.
 \begin{figure}[htbp]
 \begin{center}
 \includegraphics[width=0.3\textwidth]{../fig/m1c3}
@@ -159,30 +185,54 @@ was in session) were better approximations of season for Seattle.
 \begin{figure}[htbp]
 \begin{center}
 \includegraphics[width=0.3\textwidth]{../fig/m1c4}
-\caption{Effect of season (measured continuously as number of daylight hours)}
-\label{default}
+\caption{Effect of season (measured continuously as number of daylight
+  hours)}
+\label{fg:daylight}
+\end{center}
+\end{figure}
+
+\subsection{General trend over time}
+In our model we included a term that was a sequential numbering of the
+days of the study period as to model a general trend over time. In the
+visualization of the simulated results, we do see a general increase
+in bicycle counts over this two year span.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.3\textwidth]{../fig/m1c5}
+\caption{Simulated bicycle counts over study period}
+\label{fg:trend}
 \end{center}
 \end{figure}
 
 
 \section{Conclusions}
+Over all, this model appears to be reasonably
+predictive, with the results confirming our intuitions about factors
+influencing bicycling rates. One major limitation, is that we still do
+not account for the possibility that there is some timeseries
+autoregression ocurring on a day-to-day basis. This is a problematic
+limitation, in that we believe that the likelihood of bicycling one
+day is very likely influenced by the choice to bicycle on the days
+immediately preceeding.
+
 %==============================================================================
 %==End of content==============================================================
 %==============================================================================
 
 %--References------------------------------------------------------------------
 
-\subsection{References}
+% \subsection{References}
 
-\begin{thebibliography}{99}
+% \begin{thebibliography}{99}
 
-\bibitem{ref1} J.~Doe, Article name, \textit{Phys. Rev. Lett.}
+% \bibitem{ref1} J.~Doe, Article name, \textit{Phys. Rev. Lett.}
 
-\bibitem{ref2} J.~Doe, J. Smith, Other article name, \textit{Phys. Rev. Lett.}
+% \bibitem{ref2} J.~Doe, J. Smith, Other article name, \textit{Phys. Rev. Lett.}
 
-\bibitem{web} \url{http://www.google.pl}
+% \bibitem{web} \url{http://www.google.pl}
 
-\end{thebibliography}
+% \end{thebibliography}
 %--End of references-----------------------------------------------------------
 
 \end{multicols}

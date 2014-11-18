@@ -21,3 +21,4 @@
 *.pdf
 .Rapp.history
 *.fls
+*.fdb_latexmk
