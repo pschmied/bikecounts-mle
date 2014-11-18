@@ -122,7 +122,7 @@ m1c1 <- ggplot(mod1_tidy1, aes(x=temperatureMax, y=pe, ymin=lower,
         geom_line() + geom_ribbon(alpha=0.3) +
         xlab("Daily Max Temp") + ylab("Bicycles") + theme_bw()
 
-ggsave(file="m1c1.pdf", path="fig")
+ggsave(file="m1c1.pdf", path="fig", width=7, height=5, units=("in"))
 
 
 ## cf2 - Effect of max precipitation
@@ -136,7 +136,7 @@ m1c2 <- ggplot(mod1_tidy2, aes(x=precipIntensityMax, y=pe, ymin=lower,
         geom_line() + geom_ribbon(alpha=0.3) +
         xlab("Daily Max Precip (inches)") + ylab("Bicycles") + theme_bw()
 
-ggsave(file="m1c2.pdf", path="fig")
+ggsave(file="m1c2.pdf", path="fig", width=7, height=5, units=("in"))
 
 
 ## cf3 - Effect of day of the week
@@ -163,7 +163,7 @@ m1c3 <- ggplot(mod1_tidy3, aes(x=Day, y=pe, ymin=lower,
         geom_point() + geom_errorbar(width=0.2) +
         xlab("Day of the week") + ylab("Bicycles") + theme_bw()
 
-ggsave(file="m1c3.pdf", path="fig")
+ggsave(file="m1c3.pdf", path="fig", width=7, height=5, units=("in"))
 
 
 ## cf4 - Effect of season (measured continuously via daylight hours)
@@ -177,4 +177,4 @@ m1c4 <- ggplot(mod1_tidy4, aes(x=daylighth, y=pe, ymin=lower,
         geom_line() + geom_ribbon(alpha=0.3) +
         xlab("Daylight (hours)") + ylab("Bicycles") + theme_bw()
 
-ggsave(file="m1c4.pdf", path="fig")
+ggsave(file="m1c4.pdf", path="fig", width=7, height=5, units=("in"))
