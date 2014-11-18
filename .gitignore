@@ -20,3 +20,4 @@
 *.toc
 *.pdf
 .Rapp.history
+*.fls
