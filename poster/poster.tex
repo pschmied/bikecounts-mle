@@ -68,10 +68,10 @@ this analysis, the collection period starts on October 31, 2012 and
 ends October 30, 2014, for a total of 730 daily observations.
 
 These data are summarized graphically in figures \ref{fg:hist} and
-\ref{fg:timeseries} below. From the histogram, we see what looks to be
-a Poisson distribution with over dispersion. From the timeseries plot,
-we see that there is a clear yearly pattern, as well as a weekly
-pattern.
+\ref{fg:timeseries} below. From the histogram, we see what
+approximately looks to be a Poisson distribution with over dispersion.
+From the timeseries plot, we see that there is a clear yearly pattern,
+as well as a weekly pattern.
 
 \begin{figure}[htbp]
 \begin{center}
@@ -91,9 +91,10 @@ pattern.
 
 
 \section{Model Specification}
-Because over dispersion was evident in the counts, we chose to fit a
-negative binomial model. This model includes the following variables,
-and was fit using the \texttt{pscl::glm.nb()} function in R.
+Because over dispersion was evident in descriptive exploration of the
+counts, we chose to fit a negative binomial model. This model includes
+the following variables, and was fit using the \texttt{pscl::glm.nb()}
+function in R.
 
 \begin{table}[htdp]
 \begin{center}
@@ -116,12 +117,15 @@ and was fit using the \texttt{pscl::glm.nb()} function in R.
 \label{default}
 \end{table}%
 
+\newpage
 \section{Model Fit and Diagnostics}
 
 As the actual-versus-predicted plot below shows, the model is a
 reasonably good fit. However, we note several outliers falling far
 from the $y=x$ line, perhaps indicating some other unaccounted source
-of variation in the dataset.
+of variation in the dataset. For comparison, we also fit this model as
+a Poisson model, however both the AIC and BIC were over six times as
+large as in the negative binomial, indicating a much poorer fit.
 
 \begin{figure}[htbp]
 \begin{center}
@@ -151,7 +155,7 @@ to fall again in very high temperature conditions.
 
 \subsection{Precipitation}
 Similiarly, we see the strong negative effect of precipitation in our simulated
-results. 
+results. This corroborates our understanding of bicyclist aversion to rain.
 
 \begin{figure}[htbp]
 \begin{center}
