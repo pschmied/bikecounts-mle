@@ -10,6 +10,7 @@ library(MASS)
 library(pscl)
 
 
+
 ## Load the saved dataset
 wb <- read.csv("data/weatherbike2yr.csv",
                header=T, stringsAsFactors=FALSE)
@@ -62,7 +63,7 @@ getyhat <- function(model) {
   # Takes a model object as created by glm, generates yhats
   x <- model.matrix(model)[,-1]
   pe <- model$coefficients
-  1/(1+exp(-cbind(rep(1,nrow(x)),x)%*%pe))
+  exp(cbind(rep(1,nrow(x)),x)%*%pe) 
 }
 
 binys <- function(y, yhat, by=0.05) {
@@ -107,6 +108,13 @@ mod1_sb <- simbetas(mod1_m)             # Simulate our betas
 
 ## Model fit ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+## Actual versus predicted plot
+avpp1 <- ggplot(data.frame(actual=wb$count, predicted=getyhat(mod1_m)),
+                aes(x=actual, y=predicted)) +
+         geom_abline(intercept=0, slope=1, color="red") +
+         geom_point() + theme_bw()
+
+ggsave(file="avpp1.pdf", path="fig", width=7, height=7, units=("in"))
 
 
 ## Counterfactual simulations of model 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
