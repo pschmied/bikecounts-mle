@@ -76,6 +76,14 @@ binys <- function(y, yhat, by=0.05) {
 }
 
 ##
+## ~~~~~~~~~~~~~~~~~~~~~~~~~~~ Descriptives ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## 
+
+dp1 <- ggplot(data=wb, aes(x=count)) + geom_histogram() + theme_bw()
+
+ggsave(file="dp1.pdf", path="fig", width=7, height=3, units=("in"))
+
+##
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~ MODELS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
