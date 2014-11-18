@@ -81,7 +81,12 @@ binys <- function(y, yhat, by=0.05) {
 
 dp1 <- ggplot(data=wb, aes(x=count)) + geom_histogram() + theme_bw()
 
-ggsave(file="dp1.pdf", path="fig", width=7, height=3, units=("in"))
+ggsave(file="dp1.pdf", path="fig", width=7, height=2.5, units=("in"))
+
+dp2 <- ggplot(data=wb, aes(x=as.Date(Date), y=count)) +
+    geom_line(size=.1) + theme_bw()
+
+ggsave(file="dp2.pdf", path="fig", width=7, height=2.5, units=("in"))
 
 ##
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~ MODELS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
