@@ -1,5 +1,6 @@
-## install.packages(c("ggplot2", "plyr", "reshape2", "lubridate", "dplyr", "MASS", "pscl"))
-## install_github("pschmied/tile-simcf/simcf") # Requires devtools loaded
+## install.packages(c("ggplot2", "plyr", "reshape2", "lubridate",
+## "dplyr", "MASS", "pscl"))
+## install_github("pschmied/tile-simcf/simcf") # Requires devtools
 library(ggplot2)
 library(plyr)
 library(reshape2)
@@ -67,27 +68,48 @@ getyhat <- function(model) {
 }
 
 binys <- function(y, yhat, by=0.05) {
-    # Bins y according to yhat into bins of some desired size
+    ## Bins y according to yhat into bins of some desired size
     binned <- group_by(
         data.frame(y=y,
                    yhat=yhat,
-                   bin=cut(yhat, seq(0,1,by=by))),
+                   bin=cut(yhat, seq(min(y),max(y),by=by))),
         bin)
     summarize(binned, y=mean(y), yhat=mean(yhat), n=n())
+}
+
+mknb_llk <- function(formula, data) {
+    ## Takes a formula specifying the model and a dataframe to extract
+    ## variables from. Returns a closure to compute the log-likelihood
+    ## of a negative binomial based on the supplied data
+    
+    av <- all.vars(formula)                 # Get variables to be used
+    sdf <- na.omit(subset(data, select=av)) # subset our data, omit NA
+    ys <- sdf[,1]                           # extract dependent var
+    xmat <- cbind(1, as.matrix(sdf[,-1]))   # creat design mat
+
+    function(betaalpha) {
+        expxb <- exp(xmat %*% head(betaalpha, length(betaalpha) - 1))
+        alpha <- tail(betaalpha, 1)
+        theta <- 1/alpha
+        sum(dnbinom(ys, mu=expxb, size=theta, log=TRUE))
+    }
 }
 
 ##
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~ Descriptives ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
 
-dp1 <- ggplot(data=wb, aes(x=count)) + geom_histogram() + theme_bw()
+dp1 <- ggplot(data=wb, aes(x=count)) + geom_histogram() + theme_bw() +
+    xlab("# bicycles") + ylab("days")
 
 ggsave(file="dp1.pdf", path="fig", width=7, height=2.5, units=("in"))
+ggsave(file="dp1-sm.pdf", path="fig", width=5, height=2, units=("in"))
 
 dp2 <- ggplot(data=wb, aes(x=as.Date(Date), y=count)) +
-    geom_line(size=.1) + theme_bw()
+    geom_line(size=.1) + theme_bw() + xlab("date") + ylab("# bicycles")
 
 ggsave(file="dp2.pdf", path="fig", width=7, height=2.5, units=("in"))
+ggsave(file="dp2-sm.pdf", path="fig", width=5, height=2, units=("in"))
 
 ##
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~ MODELS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -106,6 +128,14 @@ mod1_m <- glm.nb(mod1_f, data=wb)       # estimate the real model
 set.seed(123456)                        # To reproduce results
 mod1_sb <- simbetas(mod1_m)             # Simulate our betas
 
+odTest(mod1_m)                          # Test for overdispersion
+                                        # (prints results)
+
+llk <- mknb_llk(mod1_f, wb)
+mod1_m_nboptim <- optim(c(coef(mod1_m), .5), llk, # reestimate with optim
+                        method="BFGS", hessian=TRUE,
+                        control = list(fnscale = -1))
+mod1_dispersion_alpha <- tail(mod1_m_nboptim$par, 1)
 
 ## Model fit ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -116,15 +146,27 @@ avpp1 <- ggplot(data.frame(actual=wb$count, predicted=getyhat(mod1_m)),
          geom_point() + theme_bw()
 
 ggsave(file="avpp1.pdf", path="fig", width=7, height=7, units=("in"))
+ggsave(file="avpp1-sm.pdf", path="fig", width=3.5, height=3.5, units=("in"))
 
+## Actual vs predicted plot - nb, binned
+avp_bin_m1 <- binys(y=wb$count, yhat=getyhat(mod1_m), by=400)
+avpp2 <- ggplot(avp_bin_m1, aes(x=yhat, y=y, size=n)) +
+         geom_abline(intercept=0, slope=1, color="red") +
+         geom_point(alpha=0.5) + theme_bw() +
+         xlab("predicted") + ylab("actual") +
+         scale_size_continuous(name="# values")
+
+ggsave(file="avpp2.pdf", path="fig", width=7, height=7, units=("in"))
+ggsave(file="avpp2-sm.pdf", path="fig", width=3.5, height=3.5, units=("in"))
 
 ## Actual vs predicted plot - poisson
-avpp2 <- ggplot(data.frame(actual=wb$count, predicted=getyhat(mod1_m_pois)),
+avpp3 <- ggplot(data.frame(actual=wb$count, predicted=getyhat(mod1_m_pois)),
                 aes(x=actual, y=predicted)) +
          geom_abline(intercept=0, slope=1, color="red") +
          geom_point() + theme_bw()
 
-ggsave(file="avpp2.pdf", path="fig", width=7, height=7, units=("in"))
+ggsave(file="avpp3.pdf", path="fig", width=7, height=7, units=("in"))
+ggsave(file="avpp3-sm.pdf", path="fig", width=3.5, height=3.5, units=("in"))
 
 ## AIC
 AIC(mod1_m)                             # Negative Binomial
@@ -138,38 +180,39 @@ BIC(mod1_m_pois)                        # Poisson
 ## Counterfactual simulations of model 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ## cf1 - Effect of temperature
-mod1_cf1 <- cfMake2(mod1_f, wb, temperatureMax=29:85, uw=c(TRUE,FALSE))
+mod1_cf1 <- cfMake2(mod1_f, wb, temperatureMax=29:85)
 
 mod1_res1 <- loglinsimev(mod1_cf1, mod1_sb) # Run the sim
 mod1_tidy1 <- fortify.longsim(mod1_res1, mod1_cf1)
 
 m1c1 <- ggplot(mod1_tidy1, aes(x=temperatureMax, y=pe, ymin=lower,
-                               ymax=upper, fill=uw)) +
+                               ymax=upper)) +
         geom_line() + geom_ribbon(alpha=0.3) +
         xlab("Daily Max Temp") + ylab("Bicycles") + theme_bw()
 
 ggsave(file="m1c1.pdf", path="fig", width=7, height=4, units=("in"))
+ggsave(file="m1c1-sm.pdf", path="fig", width=3.5, height=2, units=("in"))
 
 
 ## cf2 - Effect of max precipitation
-mod1_cf2 <- cfMake2(mod1_f, wb, precipIntensityMax=seq(0, 0.3275, by=.001),
-                    uw=c(TRUE,FALSE))
+mod1_cf2 <- cfMake2(mod1_f, wb, precipIntensityMax=seq(0, 0.3275, by=.001))
 mod1_res2 <- loglinsimev(mod1_cf2, mod1_sb) # Run the sim
 mod1_tidy2 <- fortify.longsim(mod1_res2, mod1_cf2)
 
 m1c2 <- ggplot(mod1_tidy2, aes(x=precipIntensityMax, y=pe, ymin=lower,
-                               ymax=upper, fill=uw)) +
+                               ymax=upper)) +
         geom_line() + geom_ribbon(alpha=0.3) +
         xlab("Daily Max Precip (inches)") + ylab("Bicycles") + theme_bw()
 
 ggsave(file="m1c2.pdf", path="fig", width=7, height=4, units=("in"))
+ggsave(file="m1c2-sm.pdf", path="fig", width=3.5, height=2, units=("in"))
 
 
 ## cf3 - Effect of day of the week
 nonrefdays <- c("Mon", "Tues", "Wed", "Thurs", "Fri", "Sat")
 mod1_cf3 <- cfMake2(mod1_f, wb, Mon = c(0,1), Tues = c(0,1),
                     Wed = c(0,1), Thurs = c(0,1), Fri = c(0,1),
-                    Sat = c(0,1), uw=c(T,F))
+                    Sat = c(0,1))
 mod1_cf3 <- mutex_dummy(mod1_cf3, nonrefdays)
 
 mod1_res3 <- loglinsimev(mod1_cf3, mod1_sb) # Run the sim
@@ -185,11 +228,12 @@ mod1_tidy3 <- subset(mod1_tidy3, value==1)
 mod1_tidy3$Day <- factor(mod1_tidy3$Day, levels=c("Sun", nonrefdays))
 
 m1c3 <- ggplot(mod1_tidy3, aes(x=Day, y=pe, ymin=lower,
-                               ymax=upper, color=uw)) +
+                               ymax=upper)) +
         geom_point() + geom_errorbar(width=0.2) +
         xlab("Day of the week") + ylab("Bicycles") + theme_bw()
 
 ggsave(file="m1c3.pdf", path="fig", width=7, height=4, units=("in"))
+ggsave(file="m1c3-sm.pdf", path="fig", width=3.5, height=2, units=("in"))
 
 
 ## cf4 - Effect of season (measured continuously via daylight hours)
@@ -204,6 +248,7 @@ m1c4 <- ggplot(mod1_tidy4, aes(x=daylighth, y=pe, ymin=lower,
         xlab("Daylight (hours)") + ylab("Bicycles") + theme_bw()
 
 ggsave(file="m1c4.pdf", path="fig", width=7, height=4, units=("in"))
+ggsave(file="m1c4-sm.pdf", path="fig", width=3.5, height=2, units=("in"))
 
 
 ## cf5 - General trend over time
@@ -217,3 +262,4 @@ m1c5 <- ggplot(mod1_tidy5, aes(x=X, y=pe, ymin=lower,
         xlab("Day of study period") + ylab("Bicycles") + theme_bw()
 
 ggsave(file="m1c5.pdf", path="fig", width=7, height=3.5, units=("in"))
+ggsave(file="m1c5-sm.pdf", path="fig", width=3.5, height=1.75, units=("in"))
