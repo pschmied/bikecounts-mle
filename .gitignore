@@ -22,3 +22,8 @@
 .Rapp.history
 *.fls
 *.fdb_latexmk
+*.bbl
+*.bcf
+*.blg
+*.run.xml
+auto/
