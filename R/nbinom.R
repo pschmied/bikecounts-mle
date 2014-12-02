@@ -156,8 +156,8 @@ avpp2 <- ggplot(avp_bin_m1, aes(x=yhat, y=y, size=n)) +
          xlab("predicted") + ylab("actual") +
          scale_size_continuous(name="# values")
 
-ggsave(file="avpp2.pdf", path="fig", width=7, height=7, units=("in"))
-ggsave(file="avpp2-sm.pdf", path="fig", width=3.5, height=3.5, units=("in"))
+ggsave(file="avpp2.pdf", path="fig", width=7, height=5, units=("in"))
+ggsave(file="avpp2-sm.pdf", path="fig", width=5, height=3.5, units=("in"))
 
 ## Actual vs predicted plot - poisson
 avpp3 <- ggplot(data.frame(actual=wb$count, predicted=getyhat(mod1_m_pois)),
