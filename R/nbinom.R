@@ -159,6 +159,18 @@ avpp2 <- ggplot(avp_bin_m1, aes(x=yhat, y=y, size=n)) +
 ggsave(file="avpp2.pdf", path="fig", width=7, height=5, units=("in"))
 ggsave(file="avpp2-sm.pdf", path="fig", width=5, height=3.5, units=("in"))
 
+## Actual vs predicted plot - nb usiung "predict"
+
+predictedy <- predict(mod1_m,newdata=wb, type="response")
+
+avpp4 <- ggplot(data.frame(actual=wb$count, predictedy),
+                 aes(x=actual, y=predictedy)) +
+       geom_abline(intercept=0, slope=1, color="red") +
+       geom_point() + theme_bw()
+
+ggsave(file="avpp4.pdf", path="fig", width=7, height=5, units=("in"))
+ggsave(file="avpp4-sm.pdf", path="fig", width=5, height=3.5, units=("in"))
+
 ## Actual vs predicted plot - poisson
 avpp3 <- ggplot(data.frame(actual=wb$count, predicted=getyhat(mod1_m_pois)),
                 aes(x=actual, y=predicted)) +
@@ -176,6 +188,14 @@ AIC(mod1_m_pois)                        # Poisson
 BIC(mod1_m)                             # Negative Binomial
 BIC(mod1_m_pois)                        # Poisson
 
+##Influence Plot: Residuals
+residuals <- influencePlot(mod1_m, identify = FALSE)
+residuals_pois <- influencePlot(mod1_m_pois, identify = FALSE)
+
+ggsave(file="residuals.pdf", path="fig", width=7, height=7, units=("in"))
+ggsave(file="residuals.pdf", path="fig", width=3.5, height=3.5, units=("in"))
+ggsave(file="residuals_pois.pdf", path="fig", width=7, height=7, units=("in"))
+ggsave(file="residuals_pois.pdf", path="fig", width=3.5, height=3.5, units=("in"))
 
 ## Counterfactual simulations of model 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
