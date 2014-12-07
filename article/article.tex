@@ -41,6 +41,12 @@
 % adjust our analysis accordingly before attempting to go to press.
 % 
 
+Bicycling volumn in cities iuseful for practitioners and researchers to understand safety, travel behavior, and development impacts. Therefore it is of great interest to investigate the relationship between bicycle volume and various factors. The goal is to build a predictive model based on this relationship, so that one can better estimate and forecast bicycle travel, help bicycle facility planning, etc. There have been a lot of papers in the last decade related to this topic (see, for example, \cite{Griswold11,Nosal12, Fields12, Niemeier96}, and reference therein). Regarding data source, survey/census data are more used to explain influencing factors such as demographic and socioeconomic factors to mode choice~\cite{Parkin08, Helbich14} while self-collected data(automatic or manual) are used in more studies in recently to track and analyze the count in a long period of time~\cite{Griswold11,Nosal12}. Despite a great amount of research, the methodology is more or less the same: 1) First propose a set of explanatory variables; 2) Then fit a proper regression model and justify the result.  
+
+According to a recent report by Bassok et. al (2011)~\cite{Bassok11}, there are eleven primary indicators, which are time of day~\cite{Schwartz99}, season~\cite{Niemeier96}, population and employment densities~(\cite{Pinjari09,McCahil08}), mix of use~\cite{Pinjari09}, bicycle facility type~\cite{Hunt07}, traffic volume~\cite{McDonald07}, rain and temperature~\cite{Parkin08,Niemeier96}, income~\cite{Turner98}, and age~\cite{Hunt07}. This section outlines the key points made in the literature that are relevant to some of most important variables. Research has found the variability for counts has a positive association with high temperature and low precipitation~\cite{Parkin08,Niemeier96}. Meanwhile, as suggested by Lewin (2011)~\cite{Lewin11} and Thomas (2008)~\cite{Thomas08}, the effects of precipitation and temperature on bicycle volumes are nonlinear. For example, bicycle traffic can decrease in both very cold and very hot weather as noted in Richardson (2000)~\cite{Richardson00}. Apart from the usual temperature and rain variables, Miranda-Moreno (2011)~\cite{MM11} finds humidity and additional precipitation variables including the presence of rain in the morning and/or during the previous three hours to be significant too. Other comparative studies are also available where bicycle counts are conducted in different cities and different sensitives to weather are examined~\cite{Rose11}. As for longitudinal study, Niemeier (1996)~\cite{Niemeier96} finds increased variability for counts conducted in the later months of the year. Jones et al. (2010)~\cite{Jones10} conclude that morning peak hours from 6 AM to 9 PM accounts for a consistent 95\% of the total bicycle volumes by hourly count data. The simple linear regression model has been used in the many general applications~\cite{Jones08,Jones10}. Few exceptions include Miranda-Moreno (2011)~\cite{MM11} which develops a count model and Thomas (2008)~\cite{Thomas08} which develops a time-series model. Niemier (1996) also uses a Poisson model to statistically confirm that many of the factors thought to influence cyclists. The work by Gallop et. al (12)~\cite{Gallop12} adopts a similar time-series approach while incorporating an autoregressive integrated moving average (ARIMA) analysis. 
+
+After reviewing these literature, we found that the bicycle count data is need to be further analysis with a long-term data and a better model. How seasonal factors influence bicycle flow needs to be examined in data that last more than a year. Plus, among the past researches, almost no literature discuss about the goodness of fit of their modeling,  a model that can better describe and forecast the bicycle count in longitudinal form is necessary to developed. Models for count data with better estimation methods are promising.
+
 \section*{Methodology}
 In order to discern the relationship between bicycle counts and
 several identified weather, seasonal, and temporal factors, we
@@ -49,6 +55,7 @@ counts from these other factors. This section describes the methods
 and procedures we used to collect and process the estimation dataset,
 the rationale for our selection of variables, our chosen model type,
 and our model estimation procedures.
+
 \subsection*{Data collection, processing, description}
 %
 % Data collection: study site, descriptives of sample, collection from
@@ -343,6 +350,7 @@ increase in bicycles with increased day length.
 
 
 \section*{Conclusion}
+
 
 \printbibliography
 \end{document}
