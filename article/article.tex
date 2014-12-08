@@ -18,7 +18,10 @@
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
 \addbibresource{../bibliography/bikecounts.bib}
 
-\title{Estimating Bicycle Counts in Seattle from Seasonal and Weather Factors}
+% Float barriers
+\usepackage[section]{placeins}
+
+\title{Estimating Daily Bicycle Counts in Seattle from Seasonal and Weather Factors}
 \author{Peter Schmiedeskamp, Weiran Zhao}
 %\date{8 October 2014} % Delete this line to display the current date
 
@@ -309,7 +312,7 @@ for a linear trend in bicycling volumes. We created this variable by
 sequentially numbering (1--720) the observed counts by day during the
 study period.
 
-\subsection*{Model estimation}
+\subsection*{Model estimation and goodness of fit}
 % Model choice
 A natural model choice for count data is the Poisson model, however we
 believed that our count data were overdispersed. Overdispersion, or
@@ -382,14 +385,14 @@ and the second being whether or not the University of Washington
 (proxying more generally for other educational institutions) was in
 session.
 
-As seen in figure \ref{fg:seasonality}, we see a substantial increase
+Figure \ref{fg:seasonality} shows that we see a substantial increase
 in bicycle volumes when the University of Washington is in session.
 With all other factors held constant we see that, on days when the
 university is in session, there is an average of approximately 367
 additional bicycles observed. Similarly, we see a roughly linear
 increase in bicycles with increased day length.
 
-\begin{figure}[h!]
+\begin{figure}[htbp!]
   \centering
   \includegraphics[width=.5\textwidth]{../fig/m1c4}
   \caption{Effect of daylight hours and University of Washington
@@ -398,10 +401,28 @@ increase in bicycles with increased day length.
   \label{fg:seasonality}
 \end{figure}
 
-
+\FloatBarrier
 \subsection*{Weather}
+As in the case of seasonality, our model represents weather using two
+variables, in this case precipitation (measured as the maximum amount
+of precipitation falling in any hour of that day), and maximum
+temperature (measured daily, in Fahrenheit).
 
-\begin{figure}[h!]
+The effect of precipitation is shown in figure \ref{fg:precipitation}.
+From this, we can see a clear inverse relationship between
+precipitation and bicycle counts. The rate of decrease in bicycles
+appears to begin somewhat steeply, and then begins to slow slightly at
+higher amounts of precipitation. This suggests that people are
+generally more sensitive to the presence of precipitation than the
+intensity.
+
+Temperature, in contrast to precipitation, has a clearly positive
+association with increased numbers of bicyclists. We were somewhat
+surprised to not see a leveling off in counts at very high
+temperatures---likely due to Seattle's moderate summer climate, and the
+lack of extremely warm days in our dataset.
+
+\begin{figure}[ht!]
   \centering
   \includegraphics[width=.5\textwidth]{../fig/m1c2}
   \caption{Effect of precipitation on counts, with shaded 95\%
@@ -409,7 +430,7 @@ increase in bicycles with increased day length.
   \label{fg:precipitation}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
   \centering
   \includegraphics[width=.5\textwidth]{../fig/m1c1}
   \caption{Effect of temperature on counts, with shaded 95\%
@@ -418,10 +439,17 @@ increase in bicycles with increased day length.
 \end{figure}
 
 
-
+\FloatBarrier
 \subsection*{General trend in bicycle counts}
+Our results (shown in figure \ref{fg:trend}) confirm the presence of a
+general trend toward increased numbers of bicycles at this location.
+With all else held constant, we would expect to see roughly 300 more
+bicycles on days at the end of our study period than at the beginning.
+This is consistent with figures reported elsewhere that suggest that
+bicycling is increasing in a number of cities including
+Seattle \parencite{League-of-American-Bicyclists:aa}.
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
   \centering
   \includegraphics[width=.5\textwidth]{../fig/m1c5}
   \caption{General trend in bicycling counts, all other factors held
@@ -430,10 +458,23 @@ increase in bicycles with increased day length.
 \end{figure}
 
 
-
+\FloatBarrier
 \subsection*{Day of week variation}
+As discussed previously, day of the week was included due to the
+weekly variation in bicycle counts apparent in timeseries plots.
+Figure \ref{fg:dayofweek} shows several interesting aspects of these
+results. First, we see much higher numbers of bicyclists on weekdays
+than on weekends. This strongly suggests that the majority of the
+bicycle traffic at this location is for commuter purposes.
 
-\begin{figure}[h!]
+Comparing between weekday results, we see that most days are roughly
+the same, with the some drop-off toward Thursday and Friday. This
+decrease toward the end of the work week might be attributable to
+individuals either working non-traditional schedules or perhaps people
+adjusting their travel mode choice in order to accommodate social
+engagements.
+
+\begin{figure}[ht!]
   \centering
   \includegraphics[width=.5\textwidth]{../fig/m1c3}
   \caption{Variation in counts throughout the week, with 95\% confidence bars.}
@@ -442,6 +483,7 @@ increase in bicycles with increased day length.
 
 \clearpage
 \section*{Discussion}
+
 
 
 \section*{Conclusion}
