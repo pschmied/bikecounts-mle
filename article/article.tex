@@ -481,13 +481,90 @@ engagements.
   \label{fg:dayofweek}
 \end{figure}
 
-\clearpage
+\FloatBarrier
 \section*{Discussion}
+This research set out to better understand the relationship between
+bicycle counts and weather and season. However, weather and season are
+themselves comprised by a number of constituent elements. We believe
+this research has chosen defensible representations of weather and
+season. However, we readily concede that there exist other reasonable
+representations of season and weather.
 
+In particular, others might be more interested in building a model
+that places more emphasis on predictive power. Those individuals might
+choose to add a number of additional variables or consider more
+complex interactions between terms. By contrast, in this model
+formulation, we present a relatively simple model with comparatively
+fewer terms. This was due to our interest in a conceptual
+understanding of the influence of weather and season.
 
+Even within our model, as noted in the methodology section, we
+considered alternative specifications, especially those containing
+different measures of temperature and precipitation. As an example, in
+choosing to represent temperature as the daily maximum, we make some
+assumptions about people and their mode choice decision making
+processes. People cannot know the daily maximum temperature in advance
+of their morning commute, however the measured daily maximum
+temperature is likely to be similar to temperatures reported in
+temperature forecasts. A superior measure might be a consensus of
+forecasts available in the morning of each day. Similarly, if
+Seattle's daily high and daily low temperatures did not have such low
+variation, a daily maximum temperature might be less important to a
+winter-time bicyclist than daily minimum.
+
+One variable missing from our analysis that we would have liked to
+include is cloud cover.\footnote{We gratefully acknowledge Christopher
+  Adolph for this suggestion.} This variable would have allowed us to
+account for the possibility of brilliant, sunny, but cold winter days,
+as well as warm, dry, but gloomy summer days. Unfortunately, the
+dataset downloaded from Forecast.io included a great deal of missing
+values for this variable, and we were unable to identify another
+suitable source for this data in time for this article.
+
+Another limitation of this research comes from our sample of bicycle
+counts. While we do have continuous counts spanning a full two years,
+these counts were taken at just one point location. We believe the
+Fremont bridge is somewhat representative of a high-volume bicycle
+facility in Seattle, however we might, for example, see a decreased
+effect size for University of Washington session status if we looked
+at counts further from the university. The City of Seattle has begun
+collecting and releasing data from other counters, which could be
+included in a future version of this analysis.
+
+Finally, as discussed in the methodology section, we believe the
+choice of the negative binomial model to be a better choice than the
+Poisson, which had been used in some previous studies. A limitation in
+this model, however, is in not accounting for timeseries
+autocorrelation. We think it highly likely that the decision to
+bicycle on one day might influence the decision to bicycle on the
+next. A future direction would be to consider models, such as ARIMA,
+that more explicitly account for time.
 
 \section*{Conclusion}
+This research set out to help clarify the relationship between weather
+and seasonal factors and bicycle counts in Seattle. In order to
+achieve this, we developed a negative binomial model to predict
+bicycle counts based on temperature, precipitation, day length,
+university in-session status, day of the week, and a general linear
+time trend.
 
+For each term included in our model, we found statistically
+significant effects. More importantly, through the use of
+counterfactual simulation, we estimated what we deem to be substantial
+effect sizes associated with each predictor variable.
+
+This article contributes to the existing literature by demonstrating
+the use of a negative binomial model for bicycle counts. In addition,
+the results presented here were generated from data collected over a
+long study period of two years.
+
+While control of the weather and seasons are admittedly beyond the
+scope of policy makers, this research does suggest that planners and
+policy makers may want to develop strategies that help mitigate the
+impacts of the natural environment during the winter months on the
+increasing number of bicyclists. Future research could focus on
+determining what, if any, programmatic or built interventions could
+ameliorate unfavorable cold- and wet-weather bicycling conditions.
 
 \printbibliography
 \end{document}
