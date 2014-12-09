@@ -5,8 +5,10 @@
 
 % Layout options
 \chapterstyle{article}
-\setulmarginsandblock{.5in}{.75in}{*}
-\setlrmarginsandblock{.5in}{*}{*}
+\setulmarginsandblock{.75in}{1in}{*}
+\setlrmarginsandblock{.75in}{*}{*}
+\setcolsepandrule{.33in}{0pt}
+
 \checkandfixthelayout
 \raggedbottom
 
@@ -41,30 +43,31 @@
 % 
 
 Bicycling offers a variety of social benefits that include the health
-of those choosing to bicycle regularly, as well as more broadly a
-society-wide increase in mobility as people shift from congestion
+of those choosing to bicycle regularly, as well as, more broadly, a
+society-wide increase in mobility when people shift from congestion
 causing modes to bicycling. As such, bicycling is being promoted by
-policy makers and urban planners as an increasingly important element
-of urban transportation. In order to develop policy and
+policy makers and urban planners as an increasingly important
+component of urban transportation. In order to develop policy and
 infrastructural improvements to induce more bicycling, a robust
 understanding of factors related to bicycling is required.
 
 This article contributes to that understanding by focusing on the
 substantive effects of weather and seasonality on the number of
 bicyclists observed on a given day. Specifically, we hypothesize that
-factors associated with inclement weather (low temperature and
+factors associated with inclement weather (esp. low temperature and
 precipitation) will be inversely correlated with bicycle counts. We
 similarly expect to see an additional decrease in counts associated
-with physical and social / institutional aspects of season. That is, in seasons
-where the days get shorter, we expect fewer cyclists due to a kind of
-decision making inertia. We also expect fewer cyclists outside
-the ``school season.''
+with both physical and social/institutional dimensions of season. That
+is, in seasons where the days get shorter, we expect fewer cyclists
+due to a kind of decision making inertia. We also expect fewer
+cyclists outside the ``school season'' as we believe that a large
+number of bicycling trips are associated with commuting to schools
+that, unlike most other institutions have clear annual cycles.
 
-In order to address these two
-primary research questions, we develop a statistical model estimated
-using two years of automated bicycle counts collected on Seattle's
-Fremont Street bridge, as well as historic weather and season data
-collected from other sources.
+In order to address these two primary research questions, we develop a
+statistical model estimated using two years of automated bicycle
+counts collected on Seattle's Fremont Street bridge, as well as
+historic weather and season data collected from other sources.
 
 Using this model, we were able to identify and quantify substantial
 effects on bicycle counts associated with temperature, precipitation,
@@ -110,9 +113,10 @@ population and employment densities
 \parencite{McCahil:2008aa,Pinjari:2009aa}, mix of use
 \parencite{Pinjari:2009aa}, bicycle facility type \parencite{Hunt:2007aa},
 traffic volume \parencite{McDonald:2007aa}, rain and temperature
-\parencite{Niemeier:1996aa,Parkin:2008aa}, income \parencite{Turner:1998aa}, and
-age \parencite{Hunt:2007aa}. This section outlines the key points made in
-the literature that are relevant to some of most important variables.
+\parencite{Niemeier:1996aa,Parkin:2008aa},
+income \parencite{Turner:1998aa}, and age \parencite{Hunt:2007aa}.
+This section outlines the key points made in the literature that are
+relevant to some of most important variables.
 
 Research has found the variability for counts has a positive
 association with high temperature and low precipitation. \parencite{Niemeier:1996aa,Parkin:2008aa}. Meanwhile, as suggested by
@@ -154,7 +158,7 @@ methods offer some promise.
 \begin{centering}
 \begin{scriptsize}
 \freetabcaption{Summary of findings from literature review}
-\begin{ctabular}{p{.6in}p{1.25in}p{1.25in}}
+\begin{ctabular}{p{.6in}p{1.15in}p{1.15in}}
   \toprule
   Source & Variable(s) identified & Methods \\
   \midrule
@@ -266,17 +270,17 @@ variables used in our model.
 \begin{table}[ht!]
 \begin{scriptsize}
 \caption{Variables included in model specification}
-\begin{tabularx}{0.5\textwidth}{>{\raggedright\arraybackslash}p{1.6cm}>{\raggedright\arraybackslash}X}
+\begin{tabularx}{0.47\textwidth}{>{\raggedright\arraybackslash}p{1.6cm}>{\raggedright\arraybackslash}X}
 \toprule
 Variable & Description \\
 \midrule
 Count* & Number of bicycles per day \\
 Daylight  & Length of daylight in hours \\
-UW & Was the University of Washington in session? \\
-Holiday & Was the day a holiday as recognized by UW? \\
-Max temp & Maximum temperature for the day \\
+UW & The University of Washington in session (TRUE/FALSE) \\
+Holiday & The day a holiday as recognized by UW (TRUE/FALSE) \\
+Max temp & Maximum temperature in Fahrenheit for the day \\
 Max precip & Daily maximum inches of precipitation in any hour \\
-Sat--Fri & Day of the week dummy variable (relative to Sunday) \\
+Sat--Fri & Day of the week dummy variable (TRUE/FALSE, relative to Sunday) \\
 Day \# & Sequentially numbered day of study \\
 \bottomrule
 \multicolumn{2}{r}{* Dependent variable}
@@ -602,9 +606,11 @@ While control of the weather and seasons are admittedly beyond the
 scope of policy makers, this research does suggest that planners and
 policy makers may want to develop strategies that help mitigate the
 impacts of the natural environment during the winter months on the
-increasing number of bicyclists. Future research could focus on
-determining what, if any, programmatic or built interventions could
-ameliorate unfavorable cold- and wet-weather bicycling conditions.
+increasing number of bicyclists. In other words, the delta between
+warm dry days and cold wet days should be treated as the opportunity
+frontier. Future research could focus on determining what, if any,
+programmatic or built interventions could ameliorate unfavorable cold-
+and wet-weather bicycling conditions.
 
 \printbibliography
 \end{document}
