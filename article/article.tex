@@ -83,70 +83,101 @@ bicycling.
 % adjust our analysis accordingly before attempting to go to press.
 % 
 
-Bicycling volumn in cities iuseful for practitioners and researchers
+Bicycling volume in cities is useful for practitioners and researchers
 to understand safety, travel behavior, and development impacts.
-Therefore it is of great interest to investigate the relationship
-between bicycle volume and various factors. The goal is to build a
-predictive model based on this relationship, so that one can better
-estimate and forecast bicycle travel, help bicycle facility planning,
-etc. There have been a lot of papers in the last decade related to
-this topic (see, for example,
-\cite{Griswold:2011aa,Fields:2012aa,Niemeier:1996aa,Nosal:2014aa}, and
-reference therein). Regarding data source, survey/census data are more
-used to explain influencing factors such as demographic and
-socioeconomic factors to mode choice \cite{Parkin:2008aa,Helbich:2014aa} while
-self-collected data(automatic or manual) are used in more studies in
-recently to track and analyze the count in a long period of
-time\cite{Griswold:2011aa,Nosal:2014aa}. Despite a great amount of research,
-the methodology is more or less the same: 1) First propose a set of
-explanatory variables; 2) Then fit a proper regression model and
-justify the result.
+Therefore the relationship between bicycle volume and various factors,
+with the goal to build a predictive model based on this relationship,
+has been of great interest to researchers over the last decade (e.g.
+\cite{Griswold:2011aa,Fields:2012aa,Niemeier:1996aa,Nosal:2014aa}).
 
-According to a recent report by \cite{Bassok:2011aa}, there are eleven
-primary indicators, which are time of day \cite{Schwartz:1999aa},
-season \cite{Niemeier:1996aa}, population and employment densities
-\cite{McCahil:2008aa,Pinjari:2009aa}, mix of use
-\cite{Pinjari:2009aa}, bicycle facility type \cite{Hunt:2007aa},
-traffic volume \cite{McDonald:2007aa}, rain and temperature
-\cite{Niemeier:1996aa,Parkin:2008aa}, income \cite{Turner:1998aa}, and
-age \cite{Hunt:2007aa}. This section outlines the key points made in
+To address these questions, researchers have used a variety of
+approaches using different data sources. Studies employing survey or
+census data are more often used to explain influences such as
+demographic and socioeconomic factors on mode choice
+\parencite{Parkin:2008aa,Helbich:2014aa}. In other studies, collected
+count data (from automated counters or manual counts) have more been
+used recently to track and analyze counts over longer periods of
+time \parencite{Griswold:2011aa,Nosal:2014aa}. These counts-based
+approaches have largely followed a similar approach of first proposing
+a set of explanatory variables, fitting some form of regression model,
+and then interpreting / justifying the results vis-\`{a}-vis the
+guiding theory.
+
+A literature review accompanying a recent report by
+\textcite{Bassok:2011aa} identified eleven primary indicators, which are
+time of day \parencite{Schwartz:1999aa}, season \parencite{Niemeier:1996aa},
+population and employment densities
+\parencite{McCahil:2008aa,Pinjari:2009aa}, mix of use
+\parencite{Pinjari:2009aa}, bicycle facility type \parencite{Hunt:2007aa},
+traffic volume \parencite{McDonald:2007aa}, rain and temperature
+\parencite{Niemeier:1996aa,Parkin:2008aa}, income \parencite{Turner:1998aa}, and
+age \parencite{Hunt:2007aa}. This section outlines the key points made in
 the literature that are relevant to some of most important variables.
+
 Research has found the variability for counts has a positive
-association with high temperature and low precipitation
-\cite{Niemeier:1996aa,Parkin:2008aa}. Meanwhile, as suggested by
-\cite{Lewin:2011aa} and \cite{Thomas:2009aa}, the effects of
+association with high temperature and low precipitation. \parencite{Niemeier:1996aa,Parkin:2008aa}. Meanwhile, as suggested by
+\textcite{Lewin:2011aa} and \textcite{Thomas:2009aa}, the effects of
 precipitation and temperature on bicycle volumes are nonlinear. For
 example, bicycle traffic can decrease in both very cold and very hot
-weather as noted in \cite{Richardson:2000aa}. Apart from the usual
-temperature and rain variables, \cite{Miranda-Moreno:2011aa} finds
+weather as noted by \textcite{Richardson:2000aa}. Apart from the usual
+temperature and rain variables, \textcite{Miranda-Moreno:2011aa} finds
 humidity and additional precipitation variables including the presence
 of rain in the morning and/or during the previous three hours to be
 significant too. Other comparative studies are also available where
 bicycle counts are conducted in different cities and different
-sensitives to weather are examined \cite{Rose:2011aa}. As for
-longitudinal study, \cite{Niemeier:1996aa} finds increased variability
+sensitives to weather are examined \parencite{Rose:2011aa}. As for
+longitudinal studies, \textcite{Niemeier:1996aa} finds increased variability
 for counts conducted in the later months of the year.
-\cite{Jones:2010aa} conclude that morning peak hours from 6 AM to 9 PM
+\textcite{Jones:2010aa} conclude that morning peak hours from 6 AM to 9 PM
 accounts for a consistent 95\% of the total bicycle volumes by hourly
-count data. The simple linear regression model has been used in the
-many general applications \cite{Jones:2008aa,Jones:2010aa}. Few
-exceptions include \cite{Miranda-Moreno:2011aa} which develops a count
+count data. The simple linear regression model has been used in
+several applications \cite{Jones:2008aa,Jones:2010aa}. Other modeling approaches include \cite{Miranda-Moreno:2011aa} which develops a count
 model and \cite{Thomas:2009aa} which develops a time-series model.
 \cite{Niemeier:1996aa} also uses a Poisson model to statistically
-confirm that many of the factors thought to influence cyclists. The
+confirm  many of the factors thought to influence cyclists. The
 work by \cite{Gallop:2012aa} adopts a similar time-series approach
 while incorporating an autoregressive integrated moving average
-(ARIMA) analysis.
+(ARIMA) analysis. A summary of findings from the literature are
+presented in table \ref{tb:lit}.
 
-After reviewing these literature, we found that the bicycle count data
-is need to be further analysis with a long-term data and a better
-model. How seasonal factors influence bicycle flow needs to be
-examined in data that last more than a year. Plus, among the past
-researches, almost no literature discuss about the goodness of fit of
-their modeling, a model that can better describe and forecast the
-bicycle count in longitudinal form is necessary to developed. Models
-for count data with better estimation methods are promising.
-
+These literature together suggest an opportunity for further model
+development base around long-term automated counts utilizing
+appropriate statistical methods. How seasonal factors influence
+bicycle flow needs to be examined in data that last more than a year.
+One limitation present in much of the past literature is that few
+discuss goodness of fit of their modeling. Further a model that can
+better describe and forecast the bicycle count in longitudinal form is
+necessary to developed. Models for count data with better estimation
+methods offer some promise.
+ 
+\newfixedcaption{\freetabcaption}{table}
+\begin{centering}
+\begin{scriptsize}
+\freetabcaption{Summary of findings from literature review}
+\begin{ctabular}{p{.6in}p{1.25in}p{1.25in}}
+  \toprule
+  Source & Variable(s) identified & Methods \\
+  \midrule
+  \cite{Fields:2012aa} & Average daily temperature (F); Total weekly precipitation (inches) & Identify patterns through scatter plots; No explicit model is established. \\
+  \cite{Gallop:2012aa} & Temperature, Relative humidity, wind speed, clearness,fog, precipitation & Use ARIMA to account for serial correlation patterns \\
+  \cite{Griswold:2011aa} & Nearby population and employment density, proximity to downtown/freeway, age, education level, income, et. & Log linear ordinary least squares regression is used to estimate a bicycle count model \\
+  \cite{Helbich:2014aa} & Daily maiximum air temperature (C), daily average wind speed (m/s), daily precipitation(mm) & Place-specific associations of weather conditions are explored through geographically weighted logit models \\
+  \cite{Hunt:2007aa} & Descriptive variables indicating lane use, secured parking, level of experience, etc. & Logistic model of cycling-related choices \\
+  \cite{Jones:2010aa} & Length of bicycle network, employment density, population density & Standard ordinary least squares regression \\
+  \cite{Lewin:2011aa} & Max temp (F), rain flag, snow flag, weekend flag, over 90 flag & Standard linear regression model \\
+  \cite{McCahil:2008aa} & logarithmic choice measure, population density, worker density & A new space syntax theory is used to evaluate and predict the bicycle volume throughout a network \\
+  \cite{Miranda-Moreno:2011aa} & Temperature (C), humidity (\%), rain presence (0/1), rain in prev. 3hrs (0/1), warm \& humid (0/1), morning rain (0/1) & Both log-linear model and negative binomial model are tested \\
+  \cite{Niemeier:1996aa} & Morning flag, rain flag, high temp flag, location variable, season variable & A Poisson bicycle count model is assumed and fitted \\
+  \cite{Nosal:2014aa} & Temperature (F), humidity (\%), rain flag, rain prev. 3hrs, am rain, pm rain & The relationship  is analyzed using a log-linear regression model \\
+  \cite{Parkin:2008aa} & Gender, car ownership, hilliness, off-road routes proportion & A logistic regression model of relevant socio-economic and physical variables is estimated. \\
+  \cite{Pinjari:2009aa} & Household density, employment density, fraction of commercial land area, fraction of senior, fraction of race population, etc. & The model system takes the form of a joint mixed Multinomial Logit–Multiple Discrete-Continuous Extreme Value (MNL–MDCEV) structure \\
+  \cite{Rose:2011aa} & Temerature(C), rainfall(mm), holiday flag, school seanson flag, day of the week & Weather and other effects examined using an aggregate model of daily ridership \\
+  \cite{Thomas:2009aa} & Temperature(C), sunshine(h), precipitation(mm), wind force(m/s), cycle path use & A bi-level structure is developed with the upper level being a log-linear model and the lower level being a linear model \\
+  \bottomrule
+\label{tb:lit}
+\end{ctabular}
+\end{scriptsize}
+\end{centering}
 
 
 
@@ -232,7 +263,7 @@ included in our model include Table \ref{tb:variables} summarizes the
 variables used in our model.
 
 \begin{centering}
-\begin{table}[h]
+\begin{table}[ht!]
 \begin{scriptsize}
 \caption{Variables included in model specification}
 \begin{tabularx}{0.5\textwidth}{>{\raggedright\arraybackslash}p{1.6cm}>{\raggedright\arraybackslash}X}
