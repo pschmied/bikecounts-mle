@@ -107,10 +107,10 @@ and then interpreting / justifying the results vis-\`{a}-vis the
 guiding theory.
 
 A literature review accompanying a recent report by
-\textcite{Bassok:2011aa} identified eleven primary indicators, which are
+\textcite{Bassok:2011aa} identified eleven primary indicators. These included 
 time of day \parencite{Schwartz:1999aa}, season \parencite{Niemeier:1996aa},
 population and employment densities
-\parencite{McCahil:2008aa,Pinjari:2009aa}, mix of use
+\parencite{McCahil:2008aa,Pinjari:2009aa}, land-use mix
 \parencite{Pinjari:2009aa}, bicycle facility type \parencite{Hunt:2007aa},
 traffic volume \parencite{McDonald:2007aa}, rain and temperature
 \parencite{Niemeier:1996aa,Parkin:2008aa},
@@ -128,18 +128,18 @@ temperature and rain variables, \textcite{Miranda-Moreno:2011aa} finds
 humidity and additional precipitation variables including the presence
 of rain in the morning and/or during the previous three hours to be
 significant too. Other comparative studies are also available where
-bicycle counts are conducted in different cities and different
+bicycle counts are conducted in different cities, and different
 sensitives to weather are examined \parencite{Rose:2011aa}. As for
 longitudinal studies, \textcite{Niemeier:1996aa} finds increased variability
 for counts conducted in the later months of the year.
 \textcite{Jones:2010aa} conclude that morning peak hours from 6 AM to 9 PM
 accounts for a consistent 95\% of the total bicycle volumes by hourly
 count data. The simple linear regression model has been used in
-several applications \cite{Jones:2008aa,Jones:2010aa}. Other modeling approaches include \cite{Miranda-Moreno:2011aa} which develops a count
-model and \cite{Thomas:2009aa} which develops a time-series model.
-\cite{Niemeier:1996aa} also uses a Poisson model to statistically
+several applications \parencite{Jones:2008aa,Jones:2010aa}. Other modeling approaches include \textcite{Miranda-Moreno:2011aa} which develops a count
+model and \textcite{Thomas:2009aa} which develops a time-series model.
+\textcite{Niemeier:1996aa} also uses a Poisson model to statistically
 confirm  many of the factors thought to influence cyclists. The
-work by \cite{Gallop:2012aa} adopts a similar time-series approach
+work by \textcite{Gallop:2012aa} adopts a similar time-series approach
 while incorporating an autoregressive integrated moving average
 (ARIMA) analysis. A summary of findings from the literature are
 presented in table \ref{tb:lit}.
@@ -174,7 +174,7 @@ methods offer some promise.
   \cite{Niemeier:1996aa} & Morning flag, rain flag, high temp flag, location variable, season variable & A Poisson bicycle count model is assumed and fitted \\
   \cite{Nosal:2014aa} & Temperature (F), humidity (\%), rain flag, rain prev. 3hrs, am rain, pm rain & The relationship  is analyzed using a log-linear regression model \\
   \cite{Parkin:2008aa} & Gender, car ownership, hilliness, off-road routes proportion & A logistic regression model of relevant socio-economic and physical variables is estimated. \\
-  \cite{Pinjari:2009aa} & Household density, employment density, fraction of commercial land area, fraction of senior, fraction of race population, etc. & The model system takes the form of a joint mixed Multinomial Logit–Multiple Discrete-Continuous Extreme Value (MNL–MDCEV) structure \\
+  \cite{Pinjari:2009aa} & Household density, employment density, fraction of commercial land area, fraction of senior, fraction of race population, etc. & The model system takes the form of a joint mixed Multinomial Logit–Multiple Discrete-Continuous Extreme Value (MNL-MDCEV) structure \\
   \cite{Rose:2011aa} & Temerature(C), rainfall(mm), holiday flag, school seanson flag, day of the week & Weather and other effects examined using an aggregate model of daily ridership \\
   \cite{Thomas:2009aa} & Temperature(C), sunshine(h), precipitation(mm), wind force(m/s), cycle path use & A bi-level structure is developed with the upper level being a log-linear model and the lower level being a linear model \\
   \bottomrule
@@ -194,6 +194,7 @@ and procedures we used to collect and process the estimation dataset,
 the rationale for our selection of variables, our chosen model type,
 and our model estimation procedures.
 
+\FloatBarrier
 \subsection*{Data collection, processing, description}
 %
 % Data collection: study site, descriptives of sample, collection from
@@ -203,31 +204,36 @@ and our model estimation procedures.
 The data that we attempt to explain were collected at Seattle's
 Fremont Bridge and cover a period of two years spanning from October
 31, 2012 to October 30, 2014. The Fremont Bridge captures a
-substantial number of bicyclists due to its status as one of only five
-facilities that carry bicyclists across the canal that separates the
-northern and southern halves of Seattle. Bicycle counts are collected
-at this location continuously by the City of Seattle using an
-in-sidewalk counter manufactured by EcoCounter. When a bicycle passes
-over an induction loop embedded in the sidewalk on either side of the
-Fremont Bridge, the counter registers the bicycle. Bicyclists may
-legally choose to ride in the roadway instead of the sidewalk, and
-would not be detected by the counter. However, we believe these
-crossings are rare at this location due to the design of the facility,
-which directs bicyclists to enter the sidewalk, and from our own
-experience riding and observing other riders. Counts are aggregated
-into 15 minute intervals, and are made available to the public via the
-City of Seattle's data
+substantial amount of bicycle traffic due to its status as one of only
+five facilities that carry bicyclists across the canal separating the
+northern and southern halves of Seattle.
+
+Bicycle counts were collected at this location continuously by the
+City of Seattle using an in-sidewalk counter manufactured by
+EcoCounter. When a bicycle passes over an induction loop embedded in
+the sidewalk on either side of the Fremont Bridge, the counter
+registers the bicycle. Bicyclists may legally choose to ride in the
+roadway instead of the sidewalk, and would thus not be detected by the
+counter. However, we believe these crossings are rare at this location
+due to the design of the facility, which directs bicyclists to enter
+the sidewalk, and from our own experience riding and observing other
+riders. Counts are aggregated into 15 minute intervals by the City of
+Seattle, and are made available to the public via the City of
+Seattle's data
 portal \parencite{City-of-Seattle:aa,City-of-Seattle:ab}.
 
-Weather data are aggregated and made available through Forecast.io's
-web services API \parencite{The-Dark-Sky-Company:aa}. Historical daily
+Weather data are collected by a variety of sources and are aggregated
+by Forecast.io. These data are available through the company's web
+services API \parencite{The-Dark-Sky-Company:aa}. Historical daily
 summaries are available for a range of weather variables including
 several specifically important to our model such as precipitation,
 daily minimum and maximum temperatures, sunrise, and sunset.
 
 We downloaded and processed these data programmatically using the R
 programming language along with several add-on
-packages \parencite{Grolemund:2011aa,Wickham:2011aa,Couture-Beil:2014aa,Lang:2014aa,R-Core-Team:2014aa}.
+packages \parencite{Grolemund:2011aa,Wickham:2011aa,Couture-Beil:2014aa,Lang:2014aa,R-Core-Team:2014aa}.\footnote{In
+addition, the code used to run the analysis, as well as the final
+dataset are available as a github repository: \url{https://github.com/pschmied/bikecounts-mle}}
 Bicycle counts were aggregated by day, and then joined to weather data
 by date. In addition to the variables collected from these two
 sources, we were also interested in controlling for holidays and
@@ -236,7 +242,11 @@ These data were collected and coded manually from the University of
 Washington's historic academic calendars.
 
 Figures \ref{fg:hist} and \ref{fg:timeseries} provide visual summaries
-of the processed counts data.
+of the processed counts data. Some apparent outliers are visible at
+the rightmost portion of the histogram. The two highest counts
+occurred the Monday and Tuesday preceding the beginning of National
+Bike to Work Month. And the third highest count occurred on National
+Bike to Work Day.
 
 \begin{figure}[h!]
   \centering
@@ -252,7 +262,7 @@ of the processed counts data.
   \label{fg:timeseries}
 \end{figure}
 
-
+\FloatBarrier
 \subsection*{Variable selection}
 % 
 % Data analysis: specification of model, choice of model (nb v pois),
@@ -276,8 +286,8 @@ Variable & Description \\
 \midrule
 Count* & Number of bicycles per day \\
 Daylight  & Length of daylight in hours \\
-UW & The University of Washington in session (TRUE/FALSE) \\
-Holiday & The day a holiday as recognized by UW (TRUE/FALSE) \\
+UW & The University of Washington was in session (TRUE/FALSE) \\
+Holiday & The day was a holiday as recognized by UW (TRUE/FALSE) \\
 Max temp & Maximum temperature in Fahrenheit for the day \\
 Max precip & Daily maximum inches of precipitation in any hour \\
 Sat--Fri & Day of the week dummy variable (TRUE/FALSE, relative to Sunday) \\
@@ -299,14 +309,15 @@ substantially from traditional notions of Spring, Summer, Autumn, and
 Winter. Daylight hours also is measured as a continuous value at a
 finer temporal resolution of one day. Finally, daylight hours adjusts
 according to latitude, which may make this model estimation procedure
-and specification more transferable to other sites in the future.
+and specification more transferable to other sites in the future,
+perhaps by interacting latitude with daylight hours.
 
 We deemed the University of Washington variable important in part
 because of the Fremont Bridge's proximity and connection via the Burke
 Gilman Trail to the University of Washington. We also felt that this
 variable was a suitable proxy for the ``school season,'' which more
-broadly captures whether or not local schools are in session. The
-academic calendars of the various local schools do not align
+broadly captures whether or not other local schools are in session.
+The academic calendars of the various local schools do not align
 perfectly, however they still overlap substantially with the
 University of Washington, which is itself the largest educational
 institution in the region.
@@ -356,6 +367,7 @@ for a linear trend in bicycling volumes. We created this variable by
 sequentially numbering (1--720) the observed counts by day during the
 study period.
 
+\FloatBarrier
 \subsection*{Model estimation and goodness of fit}
 % Model choice
 A natural model choice for count data is the Poisson model, however we
@@ -371,21 +383,40 @@ when dealing with count data.
 
 % Estimation method
 We fit the model in R using the \texttt{glm.nb} function from the MASS
-package \parencite{Venables:2002aa}. For comparison, we also estimated a
-Poisson model with an analogous specification in R using the
+package \parencite{Venables:2002aa}. For comparison, we also estimated
+a Poisson model with an analogous specification in R using the
 \texttt{glm} function. A much lower AIC and BIC in the case of the
 negative binomial model confirmed that it was a better fit than the
-Poisson. We then tested for overdispersion using the \texttt{odTest} function
-from the Pscl package \parencite{Jackman:2014aa}. The highly significant
-chi-square test statistic provided strong evidence that overdispersion
-was present in the data, further confirming the choice of a negative
-binomial.
+Poisson. We then tested for overdispersion using the \texttt{odTest}
+function from the Pscl package \parencite{Jackman:2014aa}. The highly
+significant chi-squared test statistic provided strong evidence that
+overdispersion was present in the data.
 
-In addition to testing the model fit relative to its Poisson
-analog, we visually assessed the fit of our negative binomial model by
-plotting actual versus predicted values as shown in figure
-\ref{fg:avp}. This fit appears to be generally good, though very high
-count days are predicted somewhat less accurately.
+Additionally, we compared the residuals plots for both the Poisson and
+negative binomial models. As seen in figures \ref{fg:resnb} and
+\ref{fg:respois}, the residual variance is much lower in the negative
+binomial model, further confirming the choice of a negative
+binomial for these counts.
+
+As a final model comparison, we visually assessed the overall fit of
+our negative binomial model by plotting actual versus predicted values
+as shown in figure \ref{fg:avp}. This fit appears to be generally
+good, though very high count days are predicted somewhat less
+accurately.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.5\textwidth]{../fig/residuals_pois}
+  \caption{Residual variance from the Poisson model}
+  \label{fg:respois}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.5\textwidth]{../fig/residuals}
+  \caption{Residual variance from the negative binomial model}
+  \label{fg:resnb}
+\end{figure}
 
 \begin{figure}[h!]
   \centering
@@ -398,7 +429,7 @@ count days are predicted somewhat less accurately.
 In order to provide results that are more readily interpretable by
 non-statisticians, we used counterfactual simulation to isolate
 individual terms from the model that correspond to our research
-questions. In so doing, we generated various quantities of interest
+questions. In so doing, we simulated various quantities of interest
 including point estimates and confidence intervals, and then plotted
 them for visual inspection. Counterfactual simulations were performed
 with a modified version of the Simcf R package, and visualized with
@@ -417,11 +448,12 @@ control variables such as day of the week, holidays, and linear trend
 are presented.
 
 Without exception, each of the coefficients in our model was
-statistically significant at the $p < 0.05$. Further, with the
+statistically significant at the $p < 0.05$ level. Further, with the
 exception of the Saturday coefficient, all coefficients were
 significant at the $p < 0.001$ level. The remainder of this section
 focuses on presenting the substantive effect of each variable.
 
+\FloatBarrier
 \subsection*{Seasonality}
 As discussed previously, we considered two variables to address the
 question of seasonality: the first being the number of daylight hours,
@@ -430,10 +462,10 @@ and the second being whether or not the University of Washington
 session.
 
 Figure \ref{fg:seasonality} shows that we see a substantial increase
-in bicycle volumes when the University of Washington is in session.
+in bicycle volumes when the University of Washington was in session.
 With all other factors held constant we see that, on days when the
-university is in session, there is an average of approximately 367
-additional bicycles observed. Similarly, we see a roughly linear
+university is in session, we would expect an average of approximately
+367 additional bicycles observed. Similarly, we see a roughly linear
 increase in bicycles with increased day length.
 
 \begin{figure}[htbp!]
