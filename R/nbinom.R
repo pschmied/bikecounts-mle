@@ -95,6 +95,32 @@ mknb_llk <- function(formula, data) {
     }
 }
 
+## Influence plots. This function adapted from:
+## https://gist.github.com/DoktorMike/6278065
+plotInfluence <- function (model, size=10) {
+  if(!inherits(model, "lm")) 
+    stop("You need to supply an lm object.")
+  df<-data.frame(Residual=rstudent(model), 
+                 Leverage=hatvalues(model), 
+                 Cooks=cooks.distance(model), 
+                 Observation=names(hatvalues(model)), 
+                 stringsAsFactors=FALSE)
+  myxint<-c(2*mean(df$Leverage), 3*mean(df$Leverage))
+  inds<-intersect(which(abs(df$Residual) < 2), 
+                  which( df$Leverage < myxint[1]))
+  if(length(inds) > 0) df$Observation[inds]<-""
+  ggplot(df, aes_string(x='Leverage', y='Residual', 
+                        size='Cooks', label='Observation'), 
+         legend=FALSE) +
+    geom_point(colour="black", alpha=0.2) + 
+    scale_size_area(max_size=size) + 
+    theme_bw() + 
+    geom_hline(yintercept=c(2,-2), linetype="dashed") + 
+    geom_vline(xintercept=myxint, linetype="dashed") + 
+    ylab("Studentized Residuals") + 
+    xlab("Hat-Values") + labs(size="Cook's distance")
+}
+
 ##
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~ Descriptives ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ## 
@@ -189,13 +215,13 @@ BIC(mod1_m)                             # Negative Binomial
 BIC(mod1_m_pois)                        # Poisson
 
 ##Influence Plot: Residuals
-residuals <- influencePlot(mod1_m, identify = FALSE)
-residuals_pois <- influencePlot(mod1_m_pois, identify = FALSE)
+residuals <- plotInfluence(mod1_m) + scale_y_continuous(limits=c(-50, 40))
+ggsave(file="residuals.pdf", path="fig", width=7, height=3.5, units=("in"))
+ggsave(file="residuals-small.pdf", path="fig", width=3.5, height=3.5, units=("in"))
 
-ggsave(file="residuals.pdf", path="fig", width=7, height=7, units=("in"))
-ggsave(file="residuals.pdf", path="fig", width=3.5, height=3.5, units=("in"))
-ggsave(file="residuals_pois.pdf", path="fig", width=7, height=7, units=("in"))
-ggsave(file="residuals_pois.pdf", path="fig", width=3.5, height=3.5, units=("in"))
+residuals_pois <- plotInfluence(mod1_m_pois)
+ggsave(file="residuals_pois.pdf", path="fig", width=7, height=3.5, units=("in"))
+ggsave(file="residuals_pois-small.pdf", path="fig", width=3.5, height=3.5, units=("in"))
 
 ## Counterfactual simulations of model 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
