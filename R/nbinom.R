@@ -30,6 +30,9 @@ wb <- cbind(wb, dcast(data=wb, X ~ dow, length)[,-1])
 wb$Wknd <- (wb$dow == "Sat" | wb$dow == "Sun")
 wb$TTh <- (wb$dow == "Tues" | wb$dow == "Wed" | wb$dow == "Thurs")
 
+## temperatureMax squared. Transforming here rather than inside
+## formula, because of MLE / SimCF.
+wb$temperatureMaxSq <- wb$temperatureMax^2
 
 ## Data type of all cats
 lapply(subset(wb, select=all.vars(mod1_f)), class)
@@ -146,8 +149,9 @@ ggsave(file="dp2-sm.pdf", path="fig", width=5, height=2, units=("in"))
 ##
 
 mod1_f <- count ~ daylighth + holiday + uw +
-    temperatureMax + precipIntensityMax + X +
-    Sat + Mon + Tues + Wed + Thurs + Fri # Sunday is reference cat
+  temperatureMax + temperatureMaxSq +
+  precipIntensityMax + X +
+  Sat + Mon + Tues + Wed + Thurs + Fri # Sunday is reference cat
 
 mod1_m_pois <- glm(mod1_f, data=wb, family=poisson) # poisson for fun
 mod1_m <- glm.nb(mod1_f, data=wb)       # estimate the real model
@@ -185,7 +189,7 @@ avpp2 <- ggplot(avp_bin_m1, aes(x=yhat, y=y, size=n)) +
 ggsave(file="avpp2.pdf", path="fig", width=7, height=5, units=("in"))
 ggsave(file="avpp2-sm.pdf", path="fig", width=5, height=3.5, units=("in"))
 
-## Actual vs predicted plot - nb usiung "predict"
+## Actual vs predicted plot - nb using "predict"
 
 predictedy <- predict(mod1_m,newdata=wb, type="response")
 
