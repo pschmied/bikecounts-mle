@@ -35,7 +35,7 @@ wb$TTh <- (wb$dow == "Tues" | wb$dow == "Wed" | wb$dow == "Thurs")
 wb$temperatureMaxSq <- wb$temperatureMax^2
 
 ## Data type of all cats
-lapply(subset(wb, select=all.vars(mod1_f)), class)
+# lapply(subset(wb, select=all.vars(mod1_f)), class)
 
 ##
 ## Helper functions
