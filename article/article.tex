@@ -1,12 +1,12 @@
 % !TeX TS-program = pdflatexmk
 % !BIB TS-program = biber
 
-\documentclass[12pt,letterpaper,article,twocolumn]{memoir}
+\documentclass[12pt,letterpaper,article]{memoir}
 
 % Layout options
 \chapterstyle{article}
-\setulmarginsandblock{.75in}{1in}{*}
-\setlrmarginsandblock{.75in}{*}{*}
+\setulmarginsandblock{1in}{1in}{*}
+\setlrmarginsandblock{1in}{*}{*}
 \setcolsepandrule{.33in}{0pt}
 
 \checkandfixthelayout
@@ -15,10 +15,21 @@
 % Bibliography
 \usepackage[authordate,strict,bibencoding=inputenc,doi=false,isbn=false,annotation=true]{biblatex-chicago}
 
+% Font
+\usepackage{tgtermes}
+
+% TRB Line numbers
+\usepackage{lineno}
+\usepackage{fnlineno}
+\linenumbers
+
 % Graphics
 \usepackage{graphicx}
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
 \addbibresource{../bibliography/bikecounts.bib}
+
+% Needed for sub-figures
+\newsubfloat{figure}
 
 % Float barriers
 \usepackage[section]{placeins}
@@ -27,12 +38,112 @@
 \author{Peter Schmiedeskamp, Weiran Zhao}
 %\date{8 October 2014} % Delete this line to display the current date
 
+% Header and footer
+\makepagestyle{trb}
+\makeevenhead{trb}{Schmiedeskamp, Zhao}{}{\thepage}
+\makeoddhead{trb}{Schmiedeskamp, Zhao}{}{\thepage}
+
+
+% Headings styles
+\makechapterstyle{trb}{%
+\renewcommand{\chapterheadstart}{\vspace*{3pc}}
+\renewcommand{\chapnamefont}{\bfseries\raggedright}
+\renewcommand{\chapnumfont}{\bfseries\raggedright}
+\renewcommand{\chaptitlefont}{\bfseries\raggedright}
+\renewcommand{\printchaptername}{\S}
+\renewcommand{\chapternamenum}{ }
+\renewcommand{\printchapternum}{\chapnumfont \thechapter}
+\renewcommand{\afterchapternum}{. }
+\renewcommand{\afterchaptertitle}{\par\nobreak\vspace*{1pc}}
+\renewcommand*{\printchaptertitle}[1]{\chaptitlefont\MakeUppercase{##1}} 
+}
+\setsecheadstyle{\bfseries\raggedright}
+\setsubsecheadstyle{\itshape\raggedright} % danger zone
+
+% Table and figure captions
+% http://tex.stackexchange.com/questions/75654/uppercase-until-end-of-group
+\makeatletter
+\def\redeffloatcapstyle#1{%
+  \expandafter\renewcommand\expandafter{\csname fnum@#1\endcsname}[1]{%
+    \bfseries\MakeUppercase{%
+      \expandafter{\csname #1name\endcsname}~\expandafter{\csname the#1\endcsname}\enskip
+    }
+  }
+}
+\makeatother
+\redeffloatcapstyle{figure}
+\redeffloatcapstyle{table}
+%\captionnamefont{\bfseries\scshape}
+\captiontitlefont{\bfseries}
+\captiondelim{}
+
+
+\pagestyle{trb}
+\chapterstyle{trb}
+
 %%% BEGIN DOCUMENT
 \begin{document}
 
-\maketitle
 
-\section*{Introduction}
+
+\thispagestyle{empty}
+
+\par\noindent\textbf{ESTIMATING DAILY BICYCLE COUNTS IN SEATTLE FROM SEASONAL AND WEATHER FACTORS}
+
+\vspace*{4pc}
+
+\par\noindent\textbf{Peter Schmiedeskamp} (Corresponding author)\\
+University of Washington, Department of Urban Design and Planning\\
+Box 355740, Seattle, WA 98195-5740\\
+Tel: 206.289.0694\\
+email: pschmied@uw.edu
+
+\vspace*{1.5pc}
+\par\noindent\textbf{Weiran Zhao}\\
+University of Washington, Department of Urban Design and Planning\\
+Box 355740, Seattle, WA 98195-5740\\
+Tel: 206.310.7065\\
+email: weiran36@uw.edu
+
+\vspace*{3pc}
+\par\noindent Word count: \textbf{7,452} (4,952 text \& bibliography + 8 figures + 2 tables)
+
+\vspace*{3pc}
+\par\noindent Submission Date: \textbf{1 August 2015}
+
+\clearpage
+
+\par\noindent\textbf{ABSTRACT}
+
+\par\noindent This paper examines the relationship between several seasonal and
+weather factors and bicycle ridership based on two years of automated
+bicycle counts at a Seattle location. In so doing, we fitted a
+negative binomial model, and then estimated quantities of interest
+using counterfactual simulation. Our findings confirm the significance
+of season (+), temperature (+), precipitation (-), as well as holidays
+(-), day of the week (+ for Mon-Sat, relative to Sun.), and an overall
+trend (+). This paper improves on prior work by demonstrating the use
+of the negative binomial instead of a Poisson model, which is
+appropriate given the potential for overdispersion as observed in
+these data. In addition to validating the significance of factors
+identified from the literature, this paper contributes
+methodologically through its intuitive visualization of effect sizes
+to non-statistical audiences. We believe that the combination of model
+type and counterfactual simulation / visualization presented here
+reflect a reasonable compromise between model complexity and
+intepretability. Results such as these can aid policymakers and
+planners both in understanding bicycle travel demand elasticities, and
+to guide interventions aimed at increasing rates of
+bicycling. Finally, the methods presented here are fully reproducible
+and invite adaptation to other locations.
+
+\vspace*{5pc}
+\par\noindent\textit{Keywords}: Bicycle counts; negative binomial; season; weather; automated; counterfactual simulation; visualization
+
+\clearpage
+
+
+\chapter*{Introduction}
 %
 % 1. Explain what we set out to do (i.e. understand influence of
 % seasonal and weather factors on bicycling) 2. explain relevance to
@@ -57,12 +168,12 @@ bicyclists observed on a given day. Specifically, we hypothesize that
 factors associated with inclement weather (esp. low temperature and
 precipitation) will be inversely correlated with bicycle counts. We
 similarly expect to see an additional decrease in counts associated
-with both physical and social/institutional dimensions of season. That
-is, in seasons where the days get shorter, we expect fewer cyclists
-due to a kind of decision making inertia. We also expect fewer
-cyclists outside the ``school season'' as we believe that a large
-number of bicycling trips are associated with commuting to schools
-that, unlike most other institutions have clear annual cycles.
+with both physical and social / institutional dimensions of
+season. That is, in seasons where the days get shorter, we expect
+fewer cyclists due to a kind of decision making inertia. We also
+expect fewer cyclists outside the ``school season'' as we believe that
+a large number of bicycling trips are associated with commuting to
+schools that, unlike most other institutions have clear annual cycles.
 
 In order to address these two primary research questions, we develop a
 statistical model estimated using two years of automated bicycle
@@ -76,7 +187,7 @@ estimated changes in bicycle numbers associated with the day of the
 week and holidays, as well as an overall trend toward increased
 bicycling.
 
-\section*{Literature review}
+\chapter*{Literature Review}
 % 
 % Identify where people have talked about weather and seasonal factors
 % influencing counts previously. Describe their methods together with any
@@ -142,7 +253,7 @@ confirm  many of the factors thought to influence cyclists. The
 work by \textcite{Gallop:2012aa} adopts a similar time-series approach
 while incorporating an autoregressive integrated moving average
 (ARIMA) analysis. A summary of findings from the literature are
-presented in table \ref{tb:lit}.
+presented in Table \ref{tb:lit}.
 
 These literature together suggest an opportunity for further model
 development base around long-term automated counts utilizing
@@ -151,41 +262,58 @@ bicycle flow needs to be examined in data that last more than a year.
 One limitation present in much of the past literature is that few
 discuss goodness of fit of their modeling. Further a model that can
 better describe and forecast the bicycle count in longitudinal form is
-necessary to developed. Models for count data with better estimation
-methods offer some promise.
- 
-\newfixedcaption{\freetabcaption}{table}
-\begin{centering}
+necessary to be developed. Models for count data with better
+estimation methods offer some promise.
+
+\begin{table}[htdp]
+\begin{center}
 \begin{scriptsize}
-\freetabcaption{Summary of findings from literature review}
-\begin{ctabular}{p{.6in}p{1.15in}p{1.15in}}
+\caption{Summary of findings from literature review}
+\begin{tabularx}{1.0\textwidth}{>{\raggedright\arraybackslash}p{2.7cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}
   \toprule
   Source & Variable(s) identified & Methods \\
   \midrule
-  \cite{Fields:2012aa} & Average daily temperature (F); Total weekly precipitation (inches) & Identify patterns through scatter plots; No explicit model is established. \\
-  \cite{Gallop:2012aa} & Temperature, Relative humidity, wind speed, clearness,fog, precipitation & Use ARIMA to account for serial correlation patterns \\
-  \cite{Griswold:2011aa} & Nearby population and employment density, proximity to downtown/freeway, age, education level, income, et. & Log linear ordinary least squares regression is used to estimate a bicycle count model \\
-  \cite{Helbich:2014aa} & Daily maiximum air temperature (C), daily average wind speed (m/s), daily precipitation(mm) & Place-specific associations of weather conditions are explored through geographically weighted logit models \\
+  \cite{Fields:2012aa} & Average daily temperature; Total weekly precipitation & Identify patterns through scatter plots; No explicit model is established. \\
+\\
+  \cite{Gallop:2012aa} & Temperature, Relative humidity, wind speed, visibility, fog, precipitation & Use ARIMA to account for serial correlation patterns \\
+\\
+  \cite{Griswold:2011aa} & Nearby population and employment density, proximity to downtown/freeway, age, education level, income, etc. & Log linear ordinary least squares regression is used to estimate a bicycle count model \\
+\\
+  \cite{Helbich:2014aa} & Daily maiximum air temperature, daily average wind speed, daily precipitation & Place-specific associations of weather conditions are explored through geographically weighted logit models \\
+\\
   \cite{Hunt:2007aa} & Descriptive variables indicating lane use, secured parking, level of experience, etc. & Logistic model of cycling-related choices \\
+\\
   \cite{Jones:2010aa} & Length of bicycle network, employment density, population density & Standard ordinary least squares regression \\
-  \cite{Lewin:2011aa} & Max temp (F), rain flag, snow flag, weekend flag, over 90 flag & Standard linear regression model \\
+\\
+  \cite{Lewin:2011aa} & Max temp, rain flag, snow flag, weekend flag, over 90 flag & Standard linear regression model \\
+\\
   \cite{McCahil:2008aa} & logarithmic choice measure, population density, worker density & A new space syntax theory is used to evaluate and predict the bicycle volume throughout a network \\
-  \cite{Miranda-Moreno:2011aa} & Temperature (C), humidity (\%), rain presence (0/1), rain in prev. 3hrs (0/1), warm \& humid (0/1), morning rain (0/1) & Both log-linear model and negative binomial model are tested \\
-  \cite{Niemeier:1996aa} & Morning flag, rain flag, high temp flag, location variable, season variable & A Poisson bicycle count model is assumed and fitted \\
-  \cite{Nosal:2014aa} & Temperature (F), humidity (\%), rain flag, rain prev. 3hrs, am rain, pm rain & The relationship  is analyzed using a log-linear regression model \\
+\\
+  \cite{Miranda-Moreno:2011aa} & Temperature, percent humidity, rain presence, rain presence in prev. 3hrs, warm \& humid, morning rain & Both log-linear model and negative binomial model are tested \\
+\\
+  \cite{Niemeier:1996aa} & Morning flag, rain flag, high temp flag, location variable, season variable & A Poisson count model is assumed and fitted \\
+\\
+  \cite{Nosal:2014aa} & Temperature, percent humidity, rain flag, rain prev. 3hrs, am rain, pm rain & The relationship is analyzed using a log-linear regression model \\
+\\
   \cite{Parkin:2008aa} & Gender, car ownership, hilliness, off-road routes proportion & A logistic regression model of relevant socio-economic and physical variables is estimated. \\
-  \cite{Pinjari:2009aa} & Household density, employment density, fraction of commercial land area, fraction of senior, fraction of race population, etc. & The model system takes the form of a joint mixed Multinomial Logit–Multiple Discrete-Continuous Extreme Value (MNL-MDCEV) structure \\
-  \cite{Rose:2011aa} & Temerature(C), rainfall(mm), holiday flag, school seanson flag, day of the week & Weather and other effects examined using an aggregate model of daily ridership \\
-  \cite{Thomas:2009aa} & Temperature(C), sunshine(h), precipitation(mm), wind force(m/s), cycle path use & A bi-level structure is developed with the upper level being a log-linear model and the lower level being a linear model \\
+\\
+  \cite{Pinjari:2009aa} & Household density, employment density, fraction of commercial land area, demographic factors including proportion of population that are seniors and proportion of population by race & The model system takes the form of a joint mixed Multinomial Logit–Multiple Discrete-Continuous Extreme Value (MNL-MDCEV) structure \\
+\\
+  \cite{Rose:2011aa} & Temperature, rainfall, holiday flag, school season flag, day of the week & Weather and other effects examined using an aggregate model of daily ridership \\
+\\
+  \cite{Thomas:2009aa} & Temperature, sunshine, precipitation, wind force, cycle path use & A bi-level structure is developed with the upper level being a log-linear model and the lower level being a linear model \\
   \bottomrule
 \label{tb:lit}
-\end{ctabular}
+\end{tabularx}
 \end{scriptsize}
-\end{centering}
+\end{center}
+\end{table}
+
+\FloatBarrier
 
 
+\chapter*{Methodology}
 
-\section*{Methodology}
 In order to discern the relationship between bicycle counts and
 several identified weather, seasonal, and temporal factors, we
 developed a statistical model that attempts to predict daily bicycle
@@ -195,13 +323,13 @@ the rationale for our selection of variables, our chosen model type,
 and our model estimation procedures.
 
 \FloatBarrier
-\subsection*{Data collection, processing, description}
+\section*{Data collection, processing, description}
 %
 % Data collection: study site, descriptives of sample, collection from
 % forecast.io and seattle.gov, not in that order
 % 
 
-The data that we attempt to explain were collected at Seattle's
+The data that we attempt to predict were collected at Seattle's
 Fremont Bridge and cover a period of two years spanning from October
 31, 2012 to October 30, 2014. The Fremont Bridge captures a
 substantial amount of bicycle traffic due to its status as one of only
@@ -241,46 +369,50 @@ whether or not the nearby University of Washington was in session.
 These data were collected and coded manually from the University of
 Washington's historic academic calendars.
 
-Figures \ref{fg:hist} and \ref{fg:timeseries} provide visual summaries
-of the processed counts data. Some apparent outliers are visible at
-the rightmost portion of the histogram. The two highest counts
-occurred the Monday and Tuesday preceding the beginning of National
-Bike to Work Month. And the third highest count occurred on National
-Bike to Work Day.
+Figure \ref{fg:descriptives} provides a visual summary of the processed
+counts data. Some apparent outliers are visible at the rightmost
+portion of the histogram. The two highest counts occurred the Monday
+and Tuesday preceding the beginning of National Bike to Work
+Month. And the third highest count occurred on National Bike to Work
+Day.
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
   \centering
-  \includegraphics[width=0.5\textwidth]{../fig/dp1}
-  \caption{Histogram showing frequency of observed bicycles}
-  \label{fg:hist}
+  \subbottom[Frequency of observed counts\label{fig:top}]%
+    {\includegraphics[width=0.5\textwidth]{../fig/dp1-crop}}\hfill
+  \subbottom[Timeseries of counts\label{fig:bottom}]%
+    {\includegraphics[width=0.5\textwidth]{../fig/dp2-crop}}
+  \caption{Descriptive visualization of bicycle counts dataset.}
+  \label{fg:descriptives}
 \end{figure}
 
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=0.5\textwidth]{../fig/dp2}
-  \caption{Timeseries plot of bicycle counts}
-  \label{fg:timeseries}
-\end{figure}
+% \begin{figure}[h!]
+%   \centering
+%   \includegraphics[width=0.5\textwidth]{../fig/dp2}
+%   \caption{Timeseries plot of bicycle counts}
+%   \label{fg:timeseries}
+% \end{figure}
 
 \FloatBarrier
-\subsection*{Variable selection}
+\section*{Variable selection}
 % 
 % Data analysis: specification of model, choice of model (nb v pois),
 % description of counterfactual simulation using the estimated model,
 % software used.
 % 
 
-Out of the set independent variables retrieved from Forecast.io and
+Out of the set of independent variables retrieved from Forecast.io and
 the University of Washington, we selected a subset that we felt best
 reflected our specific research questions. The final set of variables
-included in our model include Table \ref{tb:variables} summarizes the
-variables used in our model.
+included in our model include those presented and summarized in Table
+\ref{tb:variables}. Further explanation and justification of these
+variable choices follow.
 
-\begin{centering}
 \begin{table}[ht!]
+\begin{center}
 \begin{scriptsize}
 \caption{Variables included in model specification}
-\begin{tabularx}{0.47\textwidth}{>{\raggedright\arraybackslash}p{1.6cm}>{\raggedright\arraybackslash}X}
+\begin{tabularx}{0.7\textwidth}{>{\raggedright\arraybackslash}p{1.6cm}>{\raggedright\arraybackslash}X}
 \toprule
 Variable & Description \\
 \midrule
@@ -289,6 +421,7 @@ Daylight  & Length of daylight in hours \\
 UW & The University of Washington was in session (TRUE/FALSE) \\
 Holiday & The day was a holiday as recognized by UW (TRUE/FALSE) \\
 Max temp & Maximum temperature in Fahrenheit for the day \\
+Max temp\textsuperscript{2} & \texttt{Max temp} squared \\
 Max precip & Daily maximum inches of precipitation in any hour \\
 Sat--Fri & Day of the week dummy variable (TRUE/FALSE, relative to Sunday) \\
 Day \# & Sequentially numbered day of study \\
@@ -298,8 +431,9 @@ Day \# & Sequentially numbered day of study \\
 
 \label{tb:variables}
 \end{scriptsize}
+\end{center}
 \end{table}
-\end{centering}
+
 
 Daylight hours (defined as $sunset - sunrise$) and the University of
 Washington in-session status were selected to represent seasonality.
@@ -343,7 +477,10 @@ variation in Seattle due to the moderating effect of large water
 bodies, and in part because maximum temperature better reflects the
 conditions during daylight hours when most bicycle trips would occur.
 This simplification may not be warranted for other locations that
-experience greater temperature variation than Seattle.
+experience greater temperature variation than Seattle. In addition to
+daily maximum temperature, we also included a daily maximum
+temperature squared term in order to identify the potential for a
+leveling off of counts in very high temperatures.
 
 Maximum precipitation, which measures the maximum inches of
 precipitation that occurred in any hour throughout the day, was chosen
@@ -368,7 +505,7 @@ sequentially numbering (1--720) the observed counts by day during the
 study period.
 
 \FloatBarrier
-\subsection*{Model estimation and goodness of fit}
+\section*{Model estimation and goodness of fit}
 % Model choice
 A natural model choice for count data is the Poisson model, however we
 believed that our count data were overdispersed. Overdispersion, or
@@ -393,10 +530,9 @@ significant chi-squared test statistic provided strong evidence that
 overdispersion was present in the data.
 
 Additionally, we compared the residuals plots for both the Poisson and
-negative binomial models. As seen in figures \ref{fg:resnb} and
-\ref{fg:respois}, the residual variance is much lower in the negative
-binomial model, further confirming the choice of a negative
-binomial for these counts.
+negative binomial models. As seen in figure \ref{fg:respois}, the
+residual variance is much lower in the negative binomial model,
+further confirming the choice of a negative binomial for these counts.
 
 As a final model comparison, we visually assessed the overall fit of
 our negative binomial model by plotting actual versus predicted values
@@ -404,24 +540,22 @@ as shown in figure \ref{fg:avp}. This fit appears to be generally
 good, though very high count days are predicted somewhat less
 accurately.
 
-\begin{figure}[h!]
+
+\begin{figure}[ht!]
   \centering
-  \includegraphics[width=0.5\textwidth]{../fig/residuals_pois}
-  \caption{Residual variance from the Poisson model}
+  \subbottom[Poisson\label{fig:mdleft}]%
+    {\includegraphics[width=0.5\textwidth]{../fig/residuals_pois-crop}}\hfill
+  \subbottom[Negative binomial\label{fig:mdright}]%
+    {\includegraphics[width=0.5\textwidth]{../fig/residuals-crop}}
+  \caption{Residual variance of Poisson vs. negative binomial model.}
   \label{fg:respois}
 \end{figure}
 
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=0.5\textwidth]{../fig/residuals}
-  \caption{Residual variance from the negative binomial model}
-  \label{fg:resnb}
-\end{figure}
 
 \begin{figure}[h!]
   \centering
   \includegraphics[width=0.5\textwidth]{../fig/avpp2-sm}
-  \caption{Actual versus predicted values as fit by negative binomial model}
+  \caption{Actual versus predicted values as fit by negative binomial model.}
   \label{fg:avp}
 \end{figure}
 
@@ -436,7 +570,7 @@ with a modified version of the Simcf R package, and visualized with
 ggplot2 \parencite{Adolph:2014aa,Schmiedeskamp:aa,Wickham:2009aa}.
 Results of these simulations are presented in the following section.
 
-\section*{Results}
+\chapter*{Results}
 % 
 % One subsection for each research question
 % 
@@ -447,14 +581,17 @@ and general trend are addressed here. In addition, additional added
 control variables such as day of the week, holidays, and linear trend
 are presented.
 
-Without exception, each of the coefficients in our model was
-statistically significant at the $p < 0.05$ level. Further, with the
-exception of the Saturday coefficient, all coefficients were
-significant at the $p < 0.001$ level. The remainder of this section
-focuses on presenting the substantive effect of each variable.
+With the exception of the \texttt{Max temp\textsuperscript{2}} term,
+each of the coefficients in our model was statistically significant at
+the $p < 0.05$ level. Further, with the exception of the \texttt{Max
+  temp\textsuperscript{2}} and \texttt{Saturday} coefficients , all
+coefficients were significant at the $p < 0.001$ level. While this is
+instructive in confirming the significance of these factors, the
+remainder of this section focuses on presenting the substantive effect
+of each variable.
 
 \FloatBarrier
-\subsection*{Seasonality}
+\section*{Seasonality}
 As discussed previously, we considered two variables to address the
 question of seasonality: the first being the number of daylight hours,
 and the second being whether or not the University of Washington
@@ -478,11 +615,12 @@ increase in bicycles with increased day length.
 \end{figure}
 
 \FloatBarrier
-\subsection*{Weather}
-As in the case of seasonality, our model represents weather using two
-variables, in this case precipitation (measured as the maximum amount
-of precipitation falling in any hour of that day), and maximum
-temperature (measured daily, in Fahrenheit).
+\section*{Weather}
+For our examination of seasonality, our model represents weather using
+three variables. In this case, these are precipitation (measured as
+the maximum amount of precipitation falling in any hour of that day),
+maximum temperature (measured daily, in Fahrenheit), and maximum
+temperature squared.
 
 The effect of precipitation is shown in figure \ref{fg:precipitation}.
 From this, we can see a clear inverse relationship between
@@ -493,10 +631,11 @@ generally more sensitive to the presence of precipitation than the
 intensity.
 
 Temperature, in contrast to precipitation, has a clearly positive
-association with increased numbers of bicyclists. We were somewhat
-surprised to not see a leveling off in counts at very high
-temperatures---likely due to Seattle's moderate summer climate, and the
-lack of extremely warm days in our dataset.
+association with increased numbers of bicyclists. Temperature squared
+was not significant in our model at the $p < 0.05$ level. We were
+somewhat surprised to not see evidence for a leveling off in counts at
+very high temperatures---likely due to Seattle's moderate summer
+climate, and the lack of extremely warm days in our dataset.
 
 \begin{figure}[ht!]
   \centering
@@ -516,7 +655,7 @@ lack of extremely warm days in our dataset.
 
 
 \FloatBarrier
-\subsection*{General trend in bicycle counts}
+\section*{General trend in bicycle counts}
 Our results (shown in figure \ref{fg:trend}) confirm the presence of a
 general trend toward increased numbers of bicycles at this location.
 With all else held constant, we would expect to see roughly 300 more
@@ -535,7 +674,7 @@ Seattle \parencite{League-of-American-Bicyclists:aa}.
 
 
 \FloatBarrier
-\subsection*{Day of week variation}
+\section*{Day of week variation}
 As discussed previously, day of the week was included due to the
 weekly variation in bicycle counts apparent in timeseries plots.
 Figure \ref{fg:dayofweek} shows several interesting aspects of these
@@ -558,7 +697,7 @@ engagements.
 \end{figure}
 
 \FloatBarrier
-\section*{Discussion}
+\chapter*{Discussion}
 This research set out to better understand the relationship between
 bicycle counts and weather and season. However, weather and season are
 themselves comprised by a number of constituent elements. We believe
@@ -589,19 +728,18 @@ variation, a daily maximum temperature might be less important to a
 winter-time bicyclist than daily minimum.
 
 One variable missing from our analysis that we would have liked to
-include is cloud cover.\footnote{We gratefully acknowledge Christopher
-  Adolph for this suggestion.} This variable would have allowed us to
-account for the possibility of brilliant, sunny, but cold winter days,
-as well as warm, dry, but gloomy summer days. Unfortunately, the
-dataset downloaded from Forecast.io included a great deal of missing
-values for this variable, and we were unable to identify another
-suitable source for this data in time for this article.
+include is cloud cover. This variable would have allowed us to account
+for the possibility of brilliant, sunny, but cold winter days, as well
+as warm, dry, but gloomy summer days. Unfortunately, the dataset
+downloaded from Forecast.io included a great deal of missing values
+for this variable, and thus future work might include identification
+of a more suitable source of these data.
 
 Another limitation of this research comes from our sample of bicycle
 counts. While we do have continuous counts spanning a full two years,
 these counts were taken at just one point location. We believe the
 Fremont bridge is somewhat representative of a high-volume bicycle
-facility in Seattle, however we might, for example, see a decreased
+facility in Seattle. However we might, for example, see a decreased
 effect size for University of Washington session status if we looked
 at counts further from the university. The City of Seattle has begun
 collecting and releasing data from other counters, which could be
@@ -614,9 +752,10 @@ this model, however, is in not accounting for timeseries
 autocorrelation. We think it highly likely that the decision to
 bicycle on one day might influence the decision to bicycle on the
 next. A future direction would be to consider models, such as ARIMA,
-that more explicitly account for time.
+that more explicitly account for time, though that decision would
+represent a potentially undesirable increase in model complexity.
 
-\section*{Conclusion}
+\chapter*{Conclusions}
 This research set out to help clarify the relationship between weather
 and seasonal factors and bicycle counts in Seattle. In order to
 achieve this, we developed a negative binomial model to predict
@@ -624,25 +763,33 @@ bicycle counts based on temperature, precipitation, day length,
 university in-session status, day of the week, and a general linear
 time trend.
 
-For each term included in our model, we found statistically
-significant effects. More importantly, through the use of
-counterfactual simulation, we estimated what we deem to be substantial
-effect sizes associated with each predictor variable.
+For each term included in our model except temperature squared, we
+found statistically significant effects. More importantly, through the
+use of counterfactual simulation, we estimated what we deem to be
+substantial effect sizes associated with each predictor variable.
 
 This article contributes to the existing literature by demonstrating
-the use of a negative binomial model for bicycle counts. In addition,
-the results presented here were generated from data collected over a
-long study period of two years.
+the use of an appropriately chosen negative binomial model for bicycle
+counts. It provides an additional methodological contribution in
+illustrating counterfactual simulation and visualization to create
+more compelling and intuitive results summaries for
+non-statisticians. Finally, the results presented here were generated
+from data collected over a relatively long study period of two years.
 
 While control of the weather and seasons are admittedly beyond the
 scope of policy makers, this research does suggest that planners and
 policy makers may want to develop strategies that help mitigate the
-impacts of the natural environment during the winter months on the
-increasing number of bicyclists. In other words, the delta between
-warm dry days and cold wet days should be treated as the opportunity
-frontier. Future research could focus on determining what, if any,
-programmatic or built interventions could ameliorate unfavorable cold-
-and wet-weather bicycling conditions.
+impacts of the natural environment during the winter months. In other
+words, the delta between warm dry days and cold wet days should be
+treated as the opportunity frontier. Future research could focus on
+determining what, if any, programmatic or built interventions could
+ameliorate unfavorable cold- and wet-weather bicycling conditions.
+
+\chapter*{Acknowledgment}
+We acknowledge Profs. Elena Erosheva and Christopher Adolph for their
+guidance on the development of this topic. We also acknowledge Giles
+Goetz and Robin Gold for their involvement on a prior incarnation of
+this work.
 
 \printbibliography
 \end{document}
