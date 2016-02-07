@@ -343,8 +343,9 @@ the sidewalk on either side of the Fremont Bridge, the counter
 registers the bicycle. Bicyclists may legally choose to ride in the
 roadway instead of the sidewalk, and would thus not be detected by the
 counter. However, we believe these crossings are rare at this location
-due to the design of the facility, which directs bicyclists to enter
-the sidewalk, and from our own experience riding and observing other
+due to the design of the facility (metal roadway grating and wide
+sidewalks on the approach), which directs bicyclists to enter the
+sidewalk, and from our own experience riding and observing other
 riders. Counts are aggregated into 15 minute intervals by the City of
 Seattle, and are made available to the public via the City of
 Seattle's data
@@ -359,9 +360,9 @@ daily minimum and maximum temperatures, sunrise, and sunset.
 
 We downloaded and processed these data programmatically using the R
 programming language along with several add-on
-packages \parencite{Grolemund:2011aa,Wickham:2011aa,Couture-Beil:2014aa,Lang:2014aa,R-Core-Team:2014aa}.\footnote{In
+packages \parencite{Grolemund:2011aa,Wickham:2011aa,Couture-Beil:2014aa,Lang:2014aa,R-Core-Team:2014aa}. In
 addition, the code used to run the analysis, as well as the final
-dataset are available as a github repository: \url{https://github.com/pschmied/bikecounts-mle}}
+dataset are available as a github repository [NEED IN-TEXT CITATION FOR https://github.com/pschmied/bikecounts-mle]
 Bicycle counts were aggregated by day, and then joined to weather data
 by date. In addition to the variables collected from these two
 sources, we were also interested in controlling for holidays and
@@ -449,18 +450,20 @@ perhaps by interacting latitude with daylight hours.
 We deemed the University of Washington variable important in part
 because of the Fremont Bridge's proximity and connection via the Burke
 Gilman Trail to the University of Washington. We also felt that this
-variable was a suitable proxy for the ``school season,'' which more
+variable was a suitable proxy for the ``school season,'' (i.e. times
+when significant numbers of students are not on holiday) and more
 broadly captures whether or not other local schools are in session.
 The academic calendars of the various local schools do not align
 perfectly, however they still overlap substantially with the
 University of Washington, which is itself the largest educational
 institution in the region.
 
-Inclusion of the holiday variable was an attempt to account for
-some low outlier counts. Upon inspection of the dataset, Christmas and
-Thanksgiving in particular had very low counts of bicycles relative to
-the days preceding and following. Relatedly, but not accounted for by
-any variable in our model, are some of the high outlier counts. Upon
+Inclusion of the holiday variable (as recognized by the University of
+Washington) was an attempt to account for some low outlier
+counts. Upon inspection of the dataset, Christmas and Thanksgiving in
+particular had very low counts of bicycles relative to the days
+preceding and following. Relatedly, but not accounted for by any
+variable in our model, are some of the high outlier counts. Upon
 inspection, some of the highest counts were observed on National Bike
 to Work Day and on the day of the Fremont Solstice Parade, which
 typically draws large numbers of bicyclists as participants and
@@ -491,7 +494,8 @@ about temperature, in that we do expect bicyclists to be at least
 somewhat sensitive to average conditions or conditions observed at
 their time of departure. As in the case of temperature, this
 simplification would be less justifiable in locations that experience
-greater daily variation in precipitation or in locations that have a
+greater daily variation in precipitation, greater variety of
+precipitation types (e.g. snow), or in locations that have a
 predictable pattern of precipitation during certain hours.
 
 Day of the week was added due to its presence in the literature, as
@@ -601,8 +605,9 @@ session.
 Figure \ref{fg:seasonality} shows that we see a substantial increase
 in bicycle volumes when the University of Washington was in session.
 With all other factors held constant we see that, on days when the
-university is in session, we would expect an average of approximately
-367 additional bicycles observed. Similarly, we see a roughly linear
+university is in session, we would expect to observe an average of
+approximately 367 additional bicycles as compared to days when the
+university is not in session. Similarly, we see a roughly linear
 increase in bicycles with increased day length.
 
 \begin{figure}[htbp!]
@@ -635,7 +640,8 @@ association with increased numbers of bicyclists. Temperature squared
 was not significant in our model at the $p < 0.05$ level. We were
 somewhat surprised to not see evidence for a leveling off in counts at
 very high temperatures---likely due to Seattle's moderate summer
-climate, and the lack of extremely warm days in our dataset.
+climate, and the lack of extremely warm days in our dataset (85
+degrees Fahrenheit was the maximum observed).
 
 \begin{figure}[ht!]
   \centering
@@ -730,10 +736,11 @@ winter-time bicyclist than daily minimum.
 One variable missing from our analysis that we would have liked to
 include is cloud cover. This variable would have allowed us to account
 for the possibility of brilliant, sunny, but cold winter days, as well
-as warm, dry, but gloomy summer days. Unfortunately, the dataset
-downloaded from Forecast.io included a great deal of missing values
-for this variable, and thus future work might include identification
-of a more suitable source of these data.
+as warm, dry, but gloomy summer days. On such days, we might observe
+counts otherwise uncharacteristic of the season. Unfortunately, the
+dataset downloaded from Forecast.io included a great deal of missing
+values for this variable, and thus future work might include
+identification of a more suitable source of these data.
 
 Another limitation of this research comes from our sample of bicycle
 counts. While we do have continuous counts spanning a full two years,
